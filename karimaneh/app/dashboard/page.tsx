@@ -38,13 +38,13 @@ import { useAuth } from "@/context/auth-context";
 
 const links = [
   { label: "پیشخوان", href: "/dashboard", icon: <IconHome className="text-white h-5 w-5" /> },
-  { label: "اعضا", href: "#", icon: <IconUsers className="text-white h-5 w-5" /> },
-  { label: "وام", href: "#", icon: <IconCreditCard className="text-white h-5 w-5" /> },
-  { label: "معوقات", href: "#", icon: <IconClock className="text-white h-5 w-5" /> },
-  { label: "تراکنش", href: "#", icon: <IconArrowsExchange className="text-white h-5 w-5" /> },
-  { label: "گزارش ها", href: "#", icon: <IconHistory className="text-white h-5 w-5" /> },
-  { label: "پشتیبانی اعضا", href: "#", icon: <IconMessageCircle className="text-white h-5 w-5" /> },
-  { label: "تنظیمات", href: "#", icon: <IconSettings className="text-white h-5 w-5" /> },
+  { label: "اعضا", href: "/dashboard/members", icon: <IconUsers className="text-white h-5 w-5" /> },
+  { label: "وام", href: "/dashboard/loans ", icon: <IconCreditCard className="text-white h-5 w-5" /> },
+  { label: "معوقات", href: "/dashboard/arrears", icon: <IconClock className="text-white h-5 w-5" /> },
+  { label: "تراکنش", href: "/dashboard/transactions", icon: <IconArrowsExchange className="text-white h-5 w-5" /> },
+  { label: "گزارش ها", href: "/dashboard/reports", icon: <IconHistory className="text-white h-5 w-5" /> },
+  { label: "پشتیبانی اعضا", href: "/dashboard/support", icon: <IconMessageCircle className="text-white h-5 w-5" /> },
+  { label: "تنظیمات", href: "/dashboard/settings", icon: <IconSettings className="text-white h-5 w-5" /> },
 ];
 
 export default function DashboardPage() {

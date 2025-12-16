@@ -1,24 +1,9 @@
-"use client";
+import Hero from "@/components/Hero";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/auth-context";
-
-export default function Home() {
-  const router = useRouter();
-  const { user } = useAuth();
-
-  useEffect(() => {
-    if (user) {
-      router.push("/dashboard");
-    } else {
-      router.push("/auth/login");
-    }
-  }, [user, router]);
-
+export default function Page() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div>در حال انتقال...</div>
-    </div>
+    <main>
+      <Hero />
+    </main>
   );
 }
