@@ -13,8 +13,8 @@ import { useAuth } from "@/context/auth-context";
 
 const links = [
   { label: "پیشخوان", href: "/dashboard", icon: <IconHome className="w-5 h-5" /> },
-  { label: "اعضا", href: "#", icon: <IconUsers className="w-5 h-5" /> },
-  { label: "تنظیمات", href: "#", icon: <IconSettings className="w-5 h-5" /> },
+  { label: "اعضا", href: "/dashboard/members", icon: <IconUsers className="w-5 h-5" /> },
+  { label: "تنظیمات", href: "/dashboard/setting", icon: <IconSettings className="w-5 h-5" /> },
 ];
 
 export default function Sidebar() {
