@@ -12,8 +12,8 @@ export default function GlobalAreaChart({ globalStats }: any) {
         >
           <Area
             dataKey="value"
-            stroke="#4C2FB6"
-            fill="#E6DEFF"
+            stroke="var(--primary-80)"
+            fill="var(--primary-20)"
           />
         </AreaChart>
       </ResponsiveContainer>

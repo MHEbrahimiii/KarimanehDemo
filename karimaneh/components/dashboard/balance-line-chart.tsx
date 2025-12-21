@@ -18,7 +18,7 @@ export default function BalanceLineChart({ balances }: any) {
         >
           <XAxis dataKey="name" />
           <YAxis />
-          <Line dataKey="value" stroke="#7C5CFF" strokeWidth={3} />
+          <Line dataKey="value" stroke="var(--primary-60)" strokeWidth={3} />
         </LineChart>
       </ResponsiveContainer>
     </div>

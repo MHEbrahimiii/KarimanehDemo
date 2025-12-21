@@ -1,7 +1,7 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 export default function DonutChart({ loansStatus }: any) {
-  const colors = ["#846DD8", "#FFC857", "#CCC"];
+  const colors = ["var(--primary-70)", "var(--secondary-60)", "var(--gray-60)"];
 
   return (
     <div className="bg-white p-4 rounded-xl border">

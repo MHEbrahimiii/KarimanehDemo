@@ -102,7 +102,6 @@ export default function VerifyPage() {
       await fakeVerifyOtp(joined);
       setMessage("ورود موفقیت‌آمیز بود. در حال انتقال...");
       
-      // Login user through auth context
       login({
         name: displayUser,
         role: "مدیر صندوق",
@@ -136,13 +135,13 @@ export default function VerifyPage() {
 
   return (
     <div
-      className="min-h-screen bg-white flex items-center justify-center p-4 font-vazir-semibold"
+      className="min-h-screen bg-neutral-white flex items-center justify-center p-4 font-vazir-semibold"
       dir="rtl"
       onPaste={handlePaste}
     >
-      <div className="bg-white w-full max-w-6xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 border border-gray-200 rounded-lg overflow-hidden">
-          <div className="p-12 flex flex-col justify-center items-center text-right bg-white border-l border-gray-200">
+      <div className="bg-neutral-white w-full max-w-6xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 border border-gray-30 rounded-lg overflow-hidden">
+          <div className="p-12 flex flex-col justify-center items-center text-right bg-neutral-white border-l border-gray-30">
             <div className="mb-8">
               <Image
                 src="/Vector (1).png"
@@ -152,10 +151,10 @@ export default function VerifyPage() {
                 className="mx-auto"
               />
             </div>
-            <div className="text-gray-700 leading-8 max-w-md">
+            <div className="text-neutral-70 leading-8 max-w-md">
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <span className="text-blue-900 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
+                  <span className="text-primary-80 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
                     •
                   </span>
                   <span>
@@ -165,7 +164,7 @@ export default function VerifyPage() {
                   </span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-blue-900 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
+                  <span className="text-primary-80 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
                     •
                   </span>
                   <span>
@@ -175,7 +174,7 @@ export default function VerifyPage() {
                   </span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-blue-900 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
+                  <span className="text-primary-80 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
                     •
                   </span>
                   <span>
@@ -189,10 +188,10 @@ export default function VerifyPage() {
           </div>
 
           <div className="p-12 flex flex-col justify-center">
-            <h1 className="text-2xl font-bold text-gray-900 text-center mb-3">
+            <h1 className="text-2xl font-bold text-neutral-100 text-center mb-3">
               ورود به صندوق
             </h1>
-            <p className="text-center text-sm text-gray-600 mb-10">
+            <p className="text-center text-sm text-gray-80 mb-10">
               کد ارسال شده برای حساب {displayUser} را وارد کنید
             </p>
             <form onSubmit={handleSubmit} className="space-y-8">
@@ -210,7 +209,7 @@ export default function VerifyPage() {
                     value={digit}
                     onChange={(e) => handleChange(idx, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(idx, e)}
-                    className="w-12 h-12 text-center text-lg border border-gray-300 rounded-lg focus:border-indigo-900 focus:outline-none transition"
+                    className="w-12 h-12 text-center text-lg border border-gray-40 rounded-lg focus:border-primary-80 focus:outline-none transition"
                     aria-label={`رقم ${idx + 1}`}
                   />
                 ))}
@@ -220,11 +219,11 @@ export default function VerifyPage() {
                   type="button"
                   onClick={handleResend}
                   disabled={resendLoading}
-                  className="text-indigo-900 font-semibold hover:text-indigo-700 disabled:opacity-70"
+                  className="text-primary-80 font-semibold hover:text-primary-90 disabled:opacity-70"
                 >
                   {resendLoading ? "در حال ارسال..." : "دریافت مجدد کد"}
                 </button>
-                <span className="text-gray-500">کد تست: 12345</span>
+                <span className="text-gray-80">کد تست: 12345</span>
               </div>
               {error && (
                 <div className="text-red-500 text-sm bg-red-50 border border-red-200 rounded-md px-3 py-2">
@@ -239,7 +238,7 @@ export default function VerifyPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-indigo-900 text-white py-3 rounded-lg font-semibold hover:bg-indigo-800 transition disabled:opacity-70"
+                className="w-full bg-primary-80 text-neutral-white py-3 rounded-lg font-semibold hover:bg-primary-90 transition disabled:opacity-70"
               >
                 {loading ? "در حال بررسی..." : "ورود"}
               </button>

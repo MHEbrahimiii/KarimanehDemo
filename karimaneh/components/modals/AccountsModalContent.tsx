@@ -62,25 +62,25 @@ export default function AccountsModalContent() {
         شماره حساب های صندوق
       </h2>
 
-      <p className="text-lg text-gray-600 mb-8">بانک سامان</p>
+      <p className="text-lg text-gray-80 mb-8">بانک سامان</p>
       <div className="space-y-4">
         {accountData.map((item) => (
           <div
             key={item.type}
-            className="flex items-center justify-between p-4 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer group"
+            className="flex items-center justify-between p-4 rounded-lg hover:bg-gray-20 transition-colors cursor-pointer group"
             onClick={() => handleCopy(item.value, item.type)}
           >
  
             <div className="text-right min-w-[120px]">
-              <p className="text-base font-medium text-gray-700">{item.label}</p>
+              <p className="text-base font-medium text-neutral-70">{item.label}</p>
             </div>
 
             <div className="flex-1 text-center">
-              <p className="text-lg font-semibold text-gray-900 font-mono">
+              <p className="text-lg font-semibold text-neutral-100 font-mono">
                 {toPersianDigits(item.value)}
               </p>
             </div>
-            <div className="w-8 h-8 flex items-center justify-center text-gray-400 group-hover:text-primary-60 transition-colors">
+            <div className="w-8 h-8 flex items-center justify-center text-gray-70 group-hover:text-primary-60 transition-colors">
               <Image
                 src={images.copy}
                 alt="کپی"
@@ -95,7 +95,7 @@ export default function AccountsModalContent() {
 
       {copiedItem && (
         <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-[1600] animate-[fadeIn_0.25s_ease]">
-          <div className="bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2">
+          <div className="bg-neutral-100 text-neutral-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2">
             <span className="text-sm font-medium">
               {copiedItem === 'account' && 'شماره حساب کپی شد!'}
               {copiedItem === 'card' && 'شماره کارت کپی شد!'}

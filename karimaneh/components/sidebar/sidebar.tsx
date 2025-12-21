@@ -1,51 +1,193 @@
 "use client";
 
-import {
-  IconHome,
-  IconUsers,
-  IconSettings,
-} from "@tabler/icons-react";
-import { SidebarBody } from "./sidebar-context";
-import SidebarHeader from "./sidebar-header";
-import SidebarLink from "./sidebar-link";
-import SidebarUser from "./sidebar-user";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { IconMenu2, IconX, IconLogout } from "@tabler/icons-react";
 import { useAuth } from "@/context/auth-context";
 
-const links = [
-  { label: "پیشخوان", href: "/dashboard", icon: <IconHome className="w-5 h-5" /> },
-  { label: "اعضا", href: "#", icon: <IconUsers className="w-5 h-5" /> },
-  { label: "تنظیمات", href: "#", icon: <IconSettings className="w-5 h-5" /> },
-];
+interface SidebarContextProps {
+  mobileOpen: boolean;
+  setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export default function Sidebar() {
-  const { user } = useAuth();
+const SidebarContext = createContext<SidebarContextProps | null>(null);
+
+export const useSidebar = () => {
+  const ctx = useContext(SidebarContext);
+  if (!ctx) {
+    throw new Error("useSidebar must be used inside SidebarProvider");
+  }
+  return ctx;
+};
+
+export const SidebarProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  const value = useMemo(
+    () => ({ mobileOpen, setMobileOpen }),
+    [mobileOpen]
+  );
 
   return (
-    <SidebarBody>
-      <SidebarHeader
-        logo={
-          <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white font-bold">
-            💰
-          </div>
-        }
-        title="صندوق کریمانه"
-      />
-      <nav className="flex flex-col gap-1 mt-4">
-        {links.map((link) => (
-          <SidebarLink key={link.label} link={link} />
-        ))}
-      </nav>
-      <div className="mt-auto">
-        <SidebarUser
-          name={user?.name || "کاربر"}
-          role={user?.role || "عضو"}
-          avatar={
-            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white text-sm font-medium">
-              {user?.name?.charAt(0) || "U"}
-            </div>
-          }
-        />
-      </div>
-    </SidebarBody>
+    <SidebarContext.Provider value={value}>
+      {children}
+    </SidebarContext.Provider>
   );
+};
+
+export const Sidebar = ({ children }: { children: React.ReactNode }) => {
+  return <SidebarProvider>{children}</SidebarProvider>;
+};
+
+export const DesktopSidebar = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <aside
+      className={cn(
+        "hidden md:flex md:flex-col h-screen w-[300px] shrink-0 bg-primary-100 border-l border-white/10",
+        className
+      )}
+    >
+      {children}
+    </aside>
+  );
+};
+
+export const MobileSidebar = ({ children }: { children: React.ReactNode }) => {
+  const { mobileOpen, setMobileOpen } = useSidebar();
+
+  return (
+    <div className="md:hidden">
+      <div className="h-12 px-4 flex items-center justify-end bg-primary-100">
+        <button
+          type="button"
+          aria-label="باز کردن منو"
+          onClick={() => setMobileOpen(true)}
+          className="text-white"
+        >
+          <IconMenu2 />
+        </button>
+      </div>
+
+      {mobileOpen && (
+        <div className="fixed inset-0 z-[100] bg-primary-100 flex flex-col">
+          <button
+            type="button"
+            aria-label="بستن منو"
+            onClick={() => setMobileOpen(false)}
+            className="absolute top-6 right-6 text-white"
+          >
+            <IconX />
+          </button>
+
+          <div className="p-8 flex-1 overflow-y-auto">{children}</div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const SidebarHeader = ({
+  logo,
+  title,
+}: {
+  logo?: React.ReactNode;
+  title: string;
+}) => {
+  return (
+    <div className="flex items-center gap-3 px-4 py-6 border-b border-white/10">
+      {logo}
+      <h2 className="text-white text-base font-bold">{title}</h2>
+    </div>
+  );
+};
+
+interface SidebarLinkProps {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+  className?: string;
 }
+
+export const SidebarLink = ({
+  href,
+  icon,
+  label,
+  className,
+}: SidebarLinkProps) => {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-white/10 transition-colors",
+        className
+      )}
+    >
+      {icon}
+      <span className="text-sm font-medium">{label}</span>
+    </Link>
+  );
+};
+
+interface SidebarUserProps {
+  name: string;
+  role: string;
+  avatar?: React.ReactNode;
+  onLogout?: () => void;
+}
+
+export const SidebarUser = ({
+  name,
+  role,
+  avatar,
+  onLogout,
+}: SidebarUserProps) => {
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    onLogout ? onLogout() : logout();
+  };
+
+  return (
+    <div className="mt-auto px-4 py-4 border-t border-white/10 flex items-center gap-3">
+      {avatar}
+      <div className="flex-1 min-w-0">
+        <p className="text-white text-sm font-medium truncate">{name}</p>
+        <p className="text-white/70 text-xs truncate">{role}</p>
+      </div>
+      <button
+        type="button"
+        onClick={handleLogout}
+        aria-label="خروج"
+        className="text-white/70 hover:text-white transition-colors"
+      >
+        <IconLogout className="w-5 h-5" />
+      </button>
+    </div>
+  );
+};
+
+export default Sidebar;

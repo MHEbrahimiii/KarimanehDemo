@@ -21,7 +21,7 @@ export default function AboutModalContent() {
         درباره صندوق
       </h2>
 
-      <div className="text-right text-gray-700 leading-relaxed space-y-4">
+      <div className="text-right text-neutral-70 leading-relaxed space-y-4">
         <p>
           صندوق قرض‌الحسنه کریمانه یک نهاد مالی غیرانتفاعی است که با هدف
           کمک به اعضای خانواده و دوستان در زمینه پس‌انداز و دریافت وام

@@ -32,12 +32,12 @@ export default function Modal({ isOpen, onClose, modalId }: ModalProps) {
       onClick={onClose}
     >
       <div
-        className="bg-white text-gray-900 border border-white/8 rounded-[14px] max-w-[600px] w-full shadow-[0_20px_60px_rgba(0,0,0,0.45)] p-8 relative animate-[fadeIn_0.25s_ease] max-h-[80vh] overflow-y-auto"
+        className="bg-neutral-white text-neutral-100 border border-white/8 rounded-[14px] max-w-[600px] w-full shadow-[0_20px_60px_rgba(0,0,0,0.45)] p-8 relative animate-[fadeIn_0.25s_ease] max-h-[80vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 bg-transparent border-none text-gray-500 text-2xl cursor-pointer transition-colors duration-200 hover:text-gray-700"
+          className="absolute top-4 right-4 bg-transparent border-none text-gray-80 text-2xl cursor-pointer transition-colors duration-200 hover:text-neutral-100"
           aria-label="بستن"
         >
           ×

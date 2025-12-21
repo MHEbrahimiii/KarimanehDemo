@@ -21,13 +21,13 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen bg-white flex items-center justify-center p-4 font-vazir-semibold"
+      className="min-h-screen bg-neutral-white flex items-center justify-center p-4 font-vazir-semibold"
       dir="rtl"
     >
-      <div className="bg-white w-full max-w-6xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 border border-gray-200 rounded-lg overflow-hidden">
+      <div className="bg-neutral-white w-full max-w-6xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 border border-gray-30 rounded-lg overflow-hidden">
           <div className="p-12 flex flex-col justify-center">
-            <h1 className="text-2xl font-bold text-gray-900 text-center mb-10">
+            <h1 className="text-2xl font-bold text-neutral-100 text-center mb-10">
               ورود به صندوق
             </h1>
             <Formik
@@ -60,10 +60,10 @@ export default function LoginPage() {
                       type="text"
                       placeholder="نام کاربری"
                       autoComplete="username"
-                      className={`w-full px-4 py-3 border rounded-lg bg-white placeholder-gray-400 focus:outline-none transition ${
+                      className={`w-full px-4 py-3 border rounded-lg bg-neutral-white placeholder-gray-70 focus:outline-none transition ${
                         errors.username && touched.username
-                          ? "border-red-500"
-                          : "border-gray-300 focus:border-blue-900"
+                          ? "border-red-60"
+                          : "border-gray-40 focus:border-primary-80"
                       }`}
                     />
                     <ErrorMessage
@@ -78,16 +78,16 @@ export default function LoginPage() {
                       type={showPassword ? "text" : "password"}
                       placeholder="رمز عبور"
                       autoComplete="current-password"
-                      className={`w-full px-4 py-3 pr-12 border rounded-lg bg-white placeholder-gray-400 focus:outline-none transition ${
+                      className={`w-full px-4 py-3 pr-12 border rounded-lg bg-neutral-white placeholder-gray-70 focus:outline-none transition ${
                         errors.password && touched.password
-                          ? "border-red-500"
-                          : "border-gray-300 focus:border-blue-900"
+                          ? "border-red-60"
+                          : "border-gray-40 focus:border-primary-80"
                       }`}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-80 hover:text-neutral-100"
                     >
                       {showPassword ? (
                         <IconEyeOff className="w-5 h-5" />
@@ -109,11 +109,11 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-indigo-900 text-white py-3 rounded-lg font-semibold hover:bg-indigo-800 transition disabled:opacity-70"
+                    className="w-full bg-primary-80 text-neutral-white py-3 rounded-lg font-semibold hover:bg-primary-90 transition disabled:opacity-70"
                   >
                     {loading ? "در حال ارسال..." : "دریافت کد تایید"}
                   </button>
-                  <p className="text-xs text-gray-500 text-center">
+                  <p className="text-xs text-gray-80 text-center">
                     کد آزمایشی در مرحله بعد: 12345
                   </p>
                 </Form>
@@ -121,7 +121,7 @@ export default function LoginPage() {
             </Formik>
           </div>
 
-          <div className="p-12 flex flex-col justify-center items-center text-right bg-white border-l border-gray-200">
+          <div className="p-12 flex flex-col justify-center items-center text-right bg-neutral-white border-l border-gray-30">
             <div className="mb-8">
               <Image
                 src="/Vector (1).png"
@@ -131,10 +131,10 @@ export default function LoginPage() {
                 className="mx-auto"
               />
             </div>
-            <div className="text-gray-700 leading-8 max-w-md">
+            <div className="text-neutral-70 leading-8 max-w-md">
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <span className="text-blue-900 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
+                  <span className="text-primary-80 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
                     •
                   </span>
                   <span>
@@ -144,7 +144,7 @@ export default function LoginPage() {
                   </span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-blue-900 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
+                  <span className="text-primary-80 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
                     •
                   </span>
                   <span>
@@ -154,7 +154,7 @@ export default function LoginPage() {
                   </span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-blue-900 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
+                  <span className="text-primary-80 font-bold flex-shrink-0 mt-1 ml-2 text-2xl">
                     •
                   </span>
                   <span>
