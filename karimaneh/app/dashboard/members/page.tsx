@@ -1,291 +1,200 @@
 "use client";
-
+import { toPersianDigits } from "@/utils/persianNumbers";
 import DashboardBreadcrumb from "@/components/Breadcrumbs";
-import { IconPlus, IconEdit, IconTrash, IconSearch } from "@tabler/icons-react";
+import { IconChevronRight, IconChevronLeft, IconPlus, IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
+import Image from "next/image";
+import { images } from '@/public/images/images';
+import Modal from "@/components/Modal"; 
 
 interface Member {
   id: number;
+  fullName: string;
   nationalCode: string;
-  name: string;
-  fatherName: string;
-  phone: string;
-  depositsReceived: string;
+  fatherName?: string;
+  receivedLoans?: string;
+  phonenumber: string;
+  status: 'active' | 'inactive';
 }
 
-const membersData: Member[] = [
-  {
-    id: 1,
-    nationalCode: "۰۰۱۱۵۷۶۷",
-    name: "نیما شریفی",
-    fatherName: "نام پدر",
-    phone: "۰۹۱۶۴۵۳۷۶",
-    depositsReceived: "۷,۶۰۰,۰۰۰",
-  },
-  {
-    id: 2,
-    nationalCode: "+۶۰۲۰۲۰۸",
-    name: "آروا حسینی",
-    fatherName: "نام پدر",
-    phone: "۰۹۱۹۷۶۴۳۲",
-    depositsReceived: "۳,۸۰۰,۰۰۰",
-  },
-  {
-    id: 3,
-    nationalCode: "۲۶۲۲۵۷۱۸۰",
-    name: "کاملان محمدیان",
-    fatherName: "نام پدر",
-    phone: "۰۹۱۲۶۲۹۴۲۲",
-    depositsReceived: "۱۱,۵۰۰,۰۰۰",
-  },
-  {
-    id: 4,
-    nationalCode: "۰۳۷۷۲۷۳۳",
-    name: "فرزاده عسکریه",
-    fatherName: "نام پدر",
-    phone: "۰۹۱۷۳۰۲۷۲۳",
-    depositsReceived: "۵,۵۰۰,۰۰۰",
-  },
-  {
-    id: 5,
-    nationalCode: "۱۳۶۵۳۸۹۱",
-    name: "سیما زادایی",
-    fatherName: "نام پدر",
-    phone: "۰۹۱۲۳۶۳۸۲۶",
-    depositsReceived: "۹,۹۰۰,۰۰۰",
-  },
-  {
-    id: 6,
-    nationalCode: "۰۱۱۳۹۲۲۲",
-    name: "امیر خالدی",
-    fatherName: "نام پدر",
-    phone: "۰۹۱۳۹۲۲۲۶",
-    depositsReceived: "۱۲,۸۰۰,۰۰۰",
-  },
-  {
-    id: 7,
-    nationalCode: "۳۱۵۷۶۰۱۲",
-    name: "علی اکبر زاده",
-    fatherName: "نام پدر",
-    phone: "۰۹۱۵۷۶۰۱۲",
-    depositsReceived: "۶,۸۰۰,۰۰۰",
-  },
-  {
-    id: 8,
-    nationalCode: "۰۱۵۷۸۶۱۳۲",
-    name: "مهدی شریفی",
-    fatherName: "نام پدر",
-    phone: "۰۹۱۵۷۸۶۱۳۲",
-    depositsReceived: "۱۳,۱۰۰,۰۰۰",
-  },
-  {
-    id: 9,
-    nationalCode: "۰۱۱۷۸۶۱۷۲۴",
-    name: "رضا مرادی",
-    fatherName: "نام پدر",
-    phone: "۰۹۱۱۷۸۶۱۷۲۴",
-    depositsReceived: "۸,۶۰۰,۰۰۰",
-  },
-  {
-    id: 10,
-    nationalCode: "۰۱۱۸۹۱۶۳۵",
-    name: "سامان یوسفی",
-    fatherName: "نام پدر",
-    phone: "۰۹۱۱۸۹۱۶۳۵",
-    depositsReceived: "۴,۸۰۰,۰۰۰",
-  },
-];
+const COLUMNS = [
+  { header: "نام و نام خانوادگی", accessor: "fullName" },
+  { header: "کد ملی", accessor: "nationalCode" },
+  { header: "نام پدر", accessor: "fatherName" },
+  { header: "وام‌های دریافت شده", accessor: "receivedLoans" },
+  { header: "شماره تلفن", accessor: "phonenumber" },
+  { header: "عملیات", accessor: "actions" },
+] as const;
 
 export default function MembersPage() {
+  const [members, setMembers] = useState<Member[]>([
+    { id: 1, fullName: "رضا زاهدی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "علی", receivedLoans: "۷,۲۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۴۵۶۷۸۹", status: "active" },
+    { id: 2, fullName: "ایمان عباسی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "رضا", receivedLoans: "۵,۱۰۰,۰۰۰", phonenumber: "۰۹۱۷۸۸۸۶۷۸۹", status: "active" },
+    { id: 3, fullName: "کامران ساده", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "حسن", receivedLoans: "۵,۶۰۰,۰۰۰", phonenumber: "۰۹۱۴۵۵۵۵۷۸۹", status: "inactive" },
+    { id: 4, fullName: "سینا زالی‌پور", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "اسماعیل", receivedLoans: "۷,۹۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۵۵۴۸۴۷", status: "active" },
+    { id: 5, fullName: "علی اکبری", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ایلیا", receivedLoans: "۲,۲۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۴۵۵۷۸۹", status: "active" },
+    { id: 6, fullName: "راشا نامدار", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "یاور", receivedLoans: "۳,۲۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۶۵۳۴۸۹", status: "inactive" },
+  ]);
+
+  const [activeModal, setActiveModal] = useState<'viewMember' | 'memberForm' | 'deactivate' | null>(null);
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [currentTab, setCurrentTab] = useState<'all' | 'active'>('all');
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
 
-  const filteredMembers = membersData.filter(
-    (member) =>
-      member.name.includes(searchTerm) ||
-      member.nationalCode.includes(searchTerm) ||
-      member.phone.includes(searchTerm)
-  );
+  const openModal = (type: any, member: Member | null = null) => {
+    setSelectedMember(member);
+    setActiveModal(type);
+  };
 
-  const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedMembers = filteredMembers.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  const handleDeactivate = (id: number) => {
+    setMembers(prev => prev.map(m => m.id === id ? { ...m, status: 'inactive' } : m));
+    setActiveModal(null);
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedMembers(paginatedMembers.map((m) => m.id));
-    } else {
-      setSelectedMembers([]);
+    if (currentTab === 'active') {
+      setCurrentPage(1);
     }
   };
 
-  const handleSelectMember = (id: number) => {
-    setSelectedMembers((prev) =>
-      prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
-    );
-  };
+  const filteredMembers = members.filter((member) => {
+    const matchesSearch = member.fullName.includes(searchTerm) || member.nationalCode.includes(searchTerm);
+    const matchesTab = currentTab === 'active' ? member.status === 'active' : true;
+    return matchesSearch && matchesTab;
+  });
+
+  const paginatedMembers = filteredMembers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div>
+    <div className="p-6 bg-gray-50 min-h-screen text-right font-[vazir]" dir="rtl">
       <DashboardBreadcrumb current="اعضا" />
-      
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        
-        <div className="p-4 border-b border-gray-200 flex items-center gap-3">
-          <div className="flex-1 relative">
-            <div className="flex justify-end">
+
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          <div className="relative w-full md:w-80">
+            <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
+              <IconSearch size={18} />
+            </span>
             <input
               type="text"
-              placeholder="جستجو"
+              placeholder="جستجو..."
+              className="w-full pr-10 pl-4 py-2 border border-gray-200 rounded-lg outline-none text-sm"
               value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="w-[240px] h-[32px] px-4 py-2 border border-gray-300 rounded-lg text-right focus:outline-none focus:border-blue-500"
-            />
-            <div className="flex items-center justify-between mb-6 mt-6">
-        <button className="bg-blue-900 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-semibold">
-          <IconPlus size={18} />
-          افزودن عضو جدید
-        </button></div>
-      </div>
-            <IconSearch
-              size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <span className="text-sm text-gray-500">نمایش ۱ تا ۱۰</span>
+          <button 
+            onClick={() => openModal('memberForm')} 
+            className="flex items-center justify-center gap-2 bg-[#1e1b4b] text-white px-4 py-2 rounded-lg text-sm shadow-md"
+          >
+            <IconPlus size={20} /> افزودن عضو جدید
+          </button>
         </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="px-4 py-3 text-right">
-                  <input
-                    type="checkbox"
-                    checked={
-                      selectedMembers.length === paginatedMembers.length &&
-                      paginatedMembers.length > 0
-                    }
-                    onChange={(e) => handleSelectAll(e.target.checked)}
-                    className="w-4 h-4 rounded border-gray-300"
-                  />
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">
-                  #
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">
-                  نام و نام خانوادگی
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">
-                  کد ملی
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">
-                  نام پدر
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">
-                  وام‌های دریافت شده
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">
-                  شماره تلفن
-                </th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">
-                  عملیات
-                </th>
+        <div className="flex border-b mb-6">
+          {['all', 'active'].map((tab) => (
+            <button
+              key={tab}
+              className={`px-6 py-3 text-sm transition-all ${currentTab === tab ? 'border-b-2 border-blue-600 text-blue-600 font-bold' : 'text-gray-400'}`}
+              onClick={() => { setCurrentTab(tab as any); setCurrentPage(1); }}
+            >
+              {tab === 'all' ? 'همه اعضا' : 'اعضای فعال'}
+            </button>
+          ))}
+        </div>
+        <div className="overflow-x-auto rounded-lg border border-gray-100">
+          <table className="w-full text-sm text-right">
+            <thead>
+              <tr className="bg-gray-50 border-b">
+                <th className="p-4 w-12 text-center text-gray-400">#</th>
+                <th className="p-4 w-12 text-center"><input type="checkbox" className="rounded border-gray-300" /></th>
+                {COLUMNS.map((col) => <th key={col.header} className="p-4 text-gray-500 font-bold">{col.header}</th>)}
               </tr>
             </thead>
             <tbody>
-              {paginatedMembers.map((member, idx) => (
-                <tr
-                  key={member.id}
-                  className="border-b border-gray-100 hover:bg-gray-50"
-                >
-                  <td className="px-4 py-3">
-                    <input
-                      type="checkbox"
-                      checked={selectedMembers.includes(member.id)}
-                      onChange={() => handleSelectMember(member.id)}
-                      className="w-4 h-4 rounded border-gray-300"
-                    />
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">
-                    {startIndex + idx + 1}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">
-                    {member.name}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">
-                    {member.nationalCode}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">
-                    {member.fatherName}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">
-                    {member.depositsReceived}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">
-                    {member.phone}
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <button className="p-1 hover:bg-blue-100 rounded text-blue-600 transition">
-                        <IconEdit size={18} />
-                      </button>
-                      <button className="p-1 hover:bg-red-100 rounded text-red-600 transition">
-                        <IconTrash size={18} />
-                      </button>
-                    </div>
-                  </td>
+              {paginatedMembers.map((member, index) => (
+                <tr key={member.id} className="border-b last:border-0 hover:bg-gray-50 transition-colors">
+                  <td className="p-4 text-gray-400 text-center">{toPersianDigits(String(index + 1))}</td>
+                  <td className="p-4 text-center"><input type="checkbox" className="rounded border-gray-300" /></td>
+                  
+                  {COLUMNS.map((col) => (
+                    <td key={col.accessor} className="p-4">
+                      {col.accessor === 'actions' ? (
+                        <div className="flex gap-3 items-center justify-center">
+                          <div className="relative group">
+                            <button 
+                              onClick={() => openModal('viewMember', member)} 
+                              className="hover:scale-110 transition-transform"
+                            >
+                              <Image src={images.info} alt="Info" width={22} height={22} />
+                            </button>
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50">
+                              <div className="flex flex-col items-center">
+                                <span className="bg-[#333] text-white text-[10px] px-3 py-1.5 rounded-md whitespace-nowrap shadow-lg">
+                                  جزئیات
+                                </span>
+                                <div className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#333]"></div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {member.status === 'active' ? (
+                            <div className="relative group">
+                              <button 
+                                onClick={() => openModal('deactivate', member)} 
+                                className="hover:scale-110 transition-transform"
+                              >
+                                <Image src={images.Not} alt="Deactivate" width={22} height={22} />
+                              </button>
+                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50">
+                                <div className="flex flex-col items-center">
+                                  <span className="bg-[#333] text-white text-[10px] px-3 py-1.5 rounded-md whitespace-nowrap shadow-lg">
+                                    غیرفعال کردن عضو
+                                  </span>
+                                  <div className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#333]"></div>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="relative group">
+                              <Image 
+                                src={images.is} 
+                                alt="Inactive" 
+                                width={22} 
+                                height={22}
+                                className="hover:scale-110 transition-transform"
+                              />
+                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50">
+                                <div className="flex flex-col items-center">
+                                  <span className="bg-[#333] text-white text-[10px] px-3 py-1.5 rounded-md whitespace-nowrap shadow-lg">
+                                    فعال کردن عضو
+                                  </span>
+                                  <div className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#333]"></div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="font-medium text-gray-700">
+                          {col.accessor === 'receivedLoans' ? toPersianDigits(member[col.accessor] || "۰") + " ریال" : member[col.accessor as keyof Member]}
+                        </span>
+                      )}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-
-        <div className="p-4 border-t border-gray-200 flex items-center justify-between">
-          <span className="text-sm text-gray-500">
-            صفحه {currentPage} از {totalPages}
-          </span>
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-            >
-              بعدی
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`px-3 py-2 text-sm rounded-lg ${
-                  currentPage === page
-                    ? "bg-blue-900 text-white"
-                    : "border border-gray-300 hover:bg-gray-50"
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              onClick={() =>
-                setCurrentPage(Math.min(totalPages, currentPage + 1))
-              }
-              disabled={currentPage === totalPages}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-            >
-              قبلی
-            </button>
-          </div>
-        </div>
       </div>
+
+      <Modal 
+        isOpen={activeModal !== null} 
+        onClose={() => setActiveModal(null)} 
+        modalId={activeModal || ''} 
+        data={selectedMember} 
+        onAction={activeModal === 'deactivate' ? (member: Member) => handleDeactivate(member?.id || 0) : undefined}
+      />
     </div>
   );
 }

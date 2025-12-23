@@ -1,50 +1,54 @@
 'use client';
-
-import AccountsModalContent from '@/components/modals/AccountsModalContent';
-import AboutModalContent from '@/components/modals/AboutModalContent';
-import RulesModalContent from '@/components/modals/RulesModalContent';
-import type { ComponentType } from 'react';
+import MemberInfoContent from '@/components/modals/infoModalContent';
+import AddEditMemberContent from '@/components/modals/memberModalContent';
+import DeactivateMemberContent from '@/components/modals/deactiveModalContent';
+import { ComponentType } from 'react';
 
 interface ModalProps {
+  onAction?: (data: any) => void;
   isOpen: boolean;
   onClose: () => void;
   modalId: string;
+  data?: any;
 }
 
-const modalComponents: Record<string, ComponentType> = {
-  accounts: AccountsModalContent,
-  about: AboutModalContent,
-  rules: RulesModalContent,
+const modalComponents: Record<string, ComponentType<any>> = {
+  viewMember: MemberInfoContent,
+  memberForm: AddEditMemberContent,
+  deactivate: DeactivateMemberContent, 
 };
 
-export default function Modal({ isOpen, onClose, modalId }: ModalProps) {
+export default function Modal({ isOpen, onClose, modalId, data, onAction }: ModalProps) {
   if (!isOpen) return null;
 
   const ContentComponent = modalComponents[modalId];
+  if (!ContentComponent) return null;
 
-  if (!ContentComponent) {
-    return null;
-  }
+  
+  const maxWidth = modalId === 'memberForm' ? 'max-w-[900px]' : 'max-w-[450px]';
 
   return (
-    <div
-      className="fixed inset-0 bg-[rgba(10,10,25,0.55)] backdrop-blur-[10px] flex items-center justify-center p-4 z-1500"
+    <div 
+      className="fixed inset-0 bg-[#0a0a19]/55 backdrop-blur-md flex items-center justify-center p-4 z-[1500]" 
       onClick={onClose}
     >
-      <div
-        className="bg-white text-gray-900 border border-white/8 rounded-[14px] max-w-[600px] w-full shadow-[0_20px_60px_rgba(0,0,0,0.45)] p-8 relative animate-[fadeIn_0.25s_ease] max-h-[80vh] overflow-y-auto"
+      <div 
+        className={`bg-white text-gray-900 rounded-[16px] shadow-2xl p-8 relative w-full ${maxWidth} transition-all animate-in fade-in zoom-in duration-200`}
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 bg-transparent border-none text-gray-500 text-2xl cursor-pointer transition-colors duration-200 hover:text-gray-700"
-          aria-label="بستن"
-        >
-          ×
+        <button onClick={onClose} className="absolute top-5 right-5 text-gray-400 hover:text-red-500 transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
         </button>
-        <ContentComponent />
+
+        <ContentComponent 
+          data={data} 
+          onClose={onClose} 
+          onConfirm={() => onAction && onAction(data)}
+          onSubmit={onAction} 
+        />
       </div>
     </div>
   );
 }
-

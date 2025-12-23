@@ -1,3 +1,4 @@
+import { info, warn } from "console";
 import { Search } from "lucide-react";
 
 export const images = {
@@ -7,5 +8,9 @@ export const images = {
   copy :"/images/copy.png",
   Notification : '/images/notification.png',
   Search : '/images/search.png',
+  info : '/images/info.png',
+  is : '/images/is.png',
+  Not : '/images/Not.png',
+  warning : '/images/warning.png',
 };
 export type ImageKey = keyof typeof images;
