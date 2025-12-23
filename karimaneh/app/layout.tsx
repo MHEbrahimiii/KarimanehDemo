@@ -6,12 +6,12 @@ import { AuthProvider } from "@/context/auth-context";
 const vazirmatn = localFont({
   src: [
     {
-      path: "../assets/fonts/Vazirmatn-Thin.woff2",
+      path: "../assets/fonts/IRANYekanThin.ttf",
       weight: "100",
       style: "normal",
     },
     {
-      path: "../assets/fonts/Vazirmatn-ExtraLight.woff2",
+      path: "../assets/fonts/IRANYekanLight.ttf",
       weight: "200",
       style: "normal",
     },
