@@ -72,15 +72,15 @@ export default function Hero() {
               صندوق قرض‌الحسنه کریمانه
             </h1>
 
-            <p className="text-2xl md:text-3xl font-light text-gray-200">
+            <p className="text-2xl md:text-3xl font-light text-neutral-20">
               همراه شما در مسیر همدلی
             </p>
 
-            <div className="text-lg md:text-xl font-light text-gray-300 space-y-6">
+            <div className="text-lg md:text-xl font-light text-neutral-30 space-y-6">
               <p>پس‌انداز و وام آسان</p>
               <p>برای اعضای خانواده و دوستان</p>
             </div>
-<div className="w-[206px] h-[48px] bg-[#997120] rounded-md flex items-center justify-center">
+<div className="w-[206px] h-[48px] bg-secondary-90 rounded-md flex items-center justify-center">
   <Link 
     href="/enter"
     className="text-[21px] flex items-center justify-center w-full h-full"

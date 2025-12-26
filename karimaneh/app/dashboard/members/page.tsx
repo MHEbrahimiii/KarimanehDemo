@@ -73,55 +73,55 @@ export default function MembersPage() {
   const paginatedMembers = filteredMembers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen text-right font-[vazir]" dir="rtl">
+    <div className="p-6 bg-background min-h-screen text-right" dir="rtl">
       <DashboardBreadcrumb current="اعضا" />
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
+      <div className="bg-card rounded-xl shadow-sm border border-border p-6 mt-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div className="relative w-full md:w-80">
-            <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
+            <span className="absolute inset-y-0 right-3 flex items-center text-muted-foreground">
               <IconSearch size={18} />
             </span>
             <input
               type="text"
               placeholder="جستجو..."
-              className="w-full pr-10 pl-4 py-2 border border-gray-200 rounded-lg outline-none text-sm"
+              className="w-full pr-10 pl-4 py-2 border border-input rounded-lg outline-none text-sm bg-background text-foreground"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <button 
             onClick={() => openModal('memberForm')} 
-            className="flex items-center justify-center gap-2 bg-[#1e1b4b] text-white px-4 py-2 rounded-lg text-sm shadow-md"
+            className="flex items-center justify-center gap-2 bg-primary-110 text-white px-4 py-2 rounded-lg text-sm shadow-md hover:bg-primary-100 transition-colors"
           >
             <IconPlus size={20} /> افزودن عضو جدید
           </button>
         </div>
-        <div className="flex border-b mb-6">
+        <div className="flex border-b border-border mb-6">
           {['all', 'active'].map((tab) => (
             <button
               key={tab}
-              className={`px-6 py-3 text-sm transition-all ${currentTab === tab ? 'border-b-2 border-blue-600 text-blue-600 font-bold' : 'text-gray-400'}`}
+              className={`px-6 py-3 text-sm transition-all ${currentTab === tab ? 'border-b-2 border-primary-80 text-primary-80 font-bold' : 'text-muted-foreground'}`}
               onClick={() => { setCurrentTab(tab as any); setCurrentPage(1); }}
             >
               {tab === 'all' ? 'همه اعضا' : 'اعضای فعال'}
             </button>
           ))}
         </div>
-        <div className="overflow-x-auto rounded-lg border border-gray-100">
+        <div className="overflow-x-auto rounded-lg border border-border">
           <table className="w-full text-sm text-right">
             <thead>
-              <tr className="bg-gray-50 border-b">
-                <th className="p-4 w-12 text-center text-gray-400">#</th>
-                <th className="p-4 w-12 text-center"><input type="checkbox" className="rounded border-gray-300" /></th>
-                {COLUMNS.map((col) => <th key={col.header} className="p-4 text-gray-500 font-bold">{col.header}</th>)}
+              <tr className="bg-muted border-b border-border">
+                <th className="p-4 w-12 text-center text-muted-foreground">#</th>
+                <th className="p-4 w-12 text-center"><input type="checkbox" className="rounded border-input" /></th>
+                {COLUMNS.map((col) => <th key={col.header} className="p-4 text-muted-foreground font-bold">{col.header}</th>)}
               </tr>
             </thead>
             <tbody>
               {paginatedMembers.map((member, index) => (
-                <tr key={member.id} className="border-b last:border-0 hover:bg-gray-50 transition-colors">
-                  <td className="p-4 text-gray-400 text-center">{toPersianDigits(String(index + 1))}</td>
-                  <td className="p-4 text-center"><input type="checkbox" className="rounded border-gray-300" /></td>
+                <tr key={member.id} className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors">
+                  <td className="p-4 text-muted-foreground text-center">{toPersianDigits(String(index + 1))}</td>
+                  <td className="p-4 text-center"><input type="checkbox" className="rounded border-input" /></td>
                   
                   {COLUMNS.map((col) => (
                     <td key={col.accessor} className="p-4">
@@ -182,7 +182,7 @@ export default function MembersPage() {
                           )}
                         </div>
                       ) : (
-                        <span className="font-medium text-gray-700">
+                        <span className="font-medium text-foreground">
                           {col.accessor === 'receivedLoans' ? toPersianDigits(member[col.accessor] || "۰") + " ریال" : member[col.accessor as keyof Member]}
                         </span>
                       )}

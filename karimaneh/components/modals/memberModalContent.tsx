@@ -80,114 +80,114 @@ export default function AddMemberContent({ onClose, onSubmit }: AddMemberContent
   };
 
   return (
-    <div className="w-full text-right font-[vazir]" dir="rtl">
-      <h2 className="text-xl font-bold text-gray-800 mb-8 border-b pb-4">افزودن کاربر جدید</h2>
+    <div className="w-full text-right" dir="rtl">
+      <h2 className="text-xl font-bold text-foreground mb-8 border-b border-border pb-4">افزودن کاربر جدید</h2>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
         <div className="lg:col-span-1">
-          <div className="border-2 border-dashed border-gray-200 rounded-2xl p-8 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer min-h-[250px]">
-            <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-4">
+          <div className="border-2 border-dashed border-input rounded-2xl p-8 flex flex-col items-center justify-center bg-muted hover:bg-muted/80 transition-colors cursor-pointer min-h-[250px]">
+            <div className="w-16 h-16 bg-primary-20 text-primary-80 rounded-full flex items-center justify-center mb-4">
               <IconUpload size={32} />
             </div>
-            <p className="text-sm font-bold text-gray-700">تصویر خود را انتخاب کنید یا اینجا رها کنید</p>
-            <p className="text-xs text-gray-400 mt-2">فرمت‌های پشتیبانی شونده: JPG, PNG</p>
+            <p className="text-sm font-bold text-foreground">تصویر خود را انتخاب کنید یا اینجا رها کنید</p>
+            <p className="text-xs text-muted-foreground mt-2">فرمت‌های پشتیبانی شونده: JPG, PNG</p>
           </div>
         </div>
         <div className="lg:col-span-2 space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-500 mr-1">نام و نام خانوادگی</label>
+              <label className="text-xs font-bold text-muted-foreground mr-1">نام و نام خانوادگی</label>
               <input 
                 type="text" 
                 value={formData.fullName}
                 onChange={(e) => handleInputChange('fullName', e.target.value)}
-                className={`w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500/10 transition-all ${errors.fullName ? 'border-red-500' : 'border-gray-100'}`}
+                className={`w-full p-3 bg-background border rounded-xl outline-none focus:ring-2 focus:ring-primary-60/20 transition-all text-foreground ${errors.fullName ? 'border-destructive' : 'border-input'}`}
               />
-              {errors.fullName && <p className="text-xs text-red-500 mt-1">{errors.fullName}</p>}
+              {errors.fullName && <p className="text-xs text-destructive mt-1">{errors.fullName}</p>}
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-500 mr-1">نام پدر</label>
+              <label className="text-xs font-bold text-muted-foreground mr-1">نام پدر</label>
               <input 
                 type="text" 
                 value={formData.fatherName}
                 onChange={(e) => handleInputChange('fatherName', e.target.value)}
-                className={`w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500/10 transition-all ${errors.fatherName ? 'border-red-500' : 'border-gray-100'}`}
+                className={`w-full p-3 bg-background border rounded-xl outline-none focus:ring-2 focus:ring-primary-60/20 transition-all text-foreground ${errors.fatherName ? 'border-destructive' : 'border-input'}`}
               />
-              {errors.fatherName && <p className="text-xs text-red-500 mt-1">{errors.fatherName}</p>}
+              {errors.fatherName && <p className="text-xs text-destructive mt-1">{errors.fatherName}</p>}
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-500 mr-1">کد ملی</label>
+              <label className="text-xs font-bold text-muted-foreground mr-1">کد ملی</label>
               <input 
                 type="text" 
                 maxLength={10}
                 value={formData.nationalCode}
-                onChange={(e) => handleInputChange('nationalCode', toPersianDigits(e.target.value.replace(/\D/g, '')))}
-                className={`w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500/10 transition-all ${errors.nationalCode ? 'border-red-500' : 'border-gray-100'}`}
+                onChange={(e) => handleInputChange('nationalCode', e.target.value.replace(/\D/g, ''))}
+                className={`w-full p-3 bg-background border rounded-xl outline-none focus:ring-2 focus:ring-primary-60/20 transition-all text-foreground ${errors.nationalCode ? 'border-destructive' : 'border-input'}`}
               />
-              {errors.nationalCode && <p className="text-xs text-red-500 mt-1">{errors.nationalCode}</p>}
+              {errors.nationalCode && <p className="text-xs text-destructive mt-1">{errors.nationalCode}</p>}
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-500 mr-1">شماره موبایل</label>
+              <label className="text-xs font-bold text-muted-foreground mr-1">شماره موبایل</label>
               <input 
                 type="text" 
                 value={formData.phonenumber}
-                onChange={(e) => handleInputChange('phonenumber', toPersianDigits(e.target.value))}
-                className={`w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500/10 transition-all ${errors.phonenumber ? 'border-red-500' : 'border-gray-100'}`}
+                onChange={(e) => handleInputChange('phonenumber', e.target.value)}
+                className={`w-full p-3 bg-background border rounded-xl outline-none focus:ring-2 focus:ring-primary-60/20 transition-all text-foreground ${errors.phonenumber ? 'border-destructive' : 'border-input'}`}
               />
-              {errors.phonenumber && <p className="text-xs text-red-500 mt-1">{errors.phonenumber}</p>}
+              {errors.phonenumber && <p className="text-xs text-destructive mt-1">{errors.phonenumber}</p>}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-              <span className="text-xs font-bold text-gray-500 block mb-3">درخواست وام</span>
+            <div className="bg-muted p-4 rounded-xl border border-input">
+              <span className="text-xs font-bold text-muted-foreground block mb-3">درخواست وام</span>
               <div className="flex gap-6">
-                <label className="flex items-center gap-2 cursor-pointer text-sm">
+                <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground">
                   <input 
                     type="radio" 
                     name="loan" 
                     value="active"
                     checked={formData.loanRequest === 'active'}
                     onChange={(e) => handleInputChange('loanRequest', e.target.value)}
-                    className="accent-blue-600"
+                    className="accent-primary-80"
                   /> 
                   فعال
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer text-sm">
+                <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground">
                   <input 
                     type="radio" 
                     name="loan" 
                     value="inactive"
                     checked={formData.loanRequest === 'inactive'}
                     onChange={(e) => handleInputChange('loanRequest', e.target.value)}
-                    className="accent-blue-600"
+                    className="accent-primary-80"
                   /> 
                   غیرفعال
                 </label>
               </div>
             </div>
-            <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-              <span className="text-xs font-bold text-gray-500 block mb-3">انتخاب سمت</span>
+            <div className="bg-muted p-4 rounded-xl border border-input">
+              <span className="text-xs font-bold text-muted-foreground block mb-3">انتخاب سمت</span>
               <div className="flex gap-6">
-                <label className="flex items-center gap-2 cursor-pointer text-sm">
+                <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground">
                   <input 
                     type="radio" 
                     name="role" 
                     value="member"
                     checked={formData.role === 'member'}
                     onChange={(e) => handleInputChange('role', e.target.value)}
-                    className="accent-blue-600"
+                    className="accent-primary-80"
                   /> 
                   عضو صندوق
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer text-sm">
+                <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground">
                   <input 
                     type="radio" 
                     name="role" 
                     value="admin"
                     checked={formData.role === 'admin'}
                     onChange={(e) => handleInputChange('role', e.target.value)}
-                    className="accent-blue-600"
+                    className="accent-primary-80"
                   /> 
                   مدیر صندوق
                 </label>
@@ -197,16 +197,16 @@ export default function AddMemberContent({ onClose, onSubmit }: AddMemberContent
         </div>
       </div>
 
-      <div className="flex gap-4 mt-10 border-t pt-6">
+      <div className="flex gap-4 mt-10 border-t border-border pt-6">
         <button 
           onClick={handleSubmit}
-          className="bg-[#1e1b4b] text-white px-10 py-3 rounded-xl font-bold hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="bg-primary-110 text-white px-10 py-3 rounded-xl font-bold hover:bg-primary-100 transition-colors disabled:opacity-50"
         >
           ذخیره
         </button>
         <button 
           onClick={onClose} 
-          className="border border-gray-200 px-10 py-3 rounded-xl font-bold text-gray-600 hover:bg-gray-50"
+          className="border border-input px-10 py-3 rounded-xl font-bold text-foreground hover:bg-muted transition-colors"
         >
           انصراف
         </button>

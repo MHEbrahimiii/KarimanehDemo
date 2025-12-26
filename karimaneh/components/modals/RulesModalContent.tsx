@@ -84,7 +84,7 @@ export default function RulesModalContent() {
             <h4 className="text-lg font-bold text-primary-80">
               {toPersianDigits(index + 1)}. {rule.title}
             </h4>
-            <ul className="space-y-2 text-gray-700 leading-relaxed pr-6">
+            <ul className="space-y-2 text-neutral-70 leading-relaxed pr-6">
               {rule.items.map((item, itemIndex) => (
                 <li key={itemIndex} className="text-right">
                   {item}

@@ -35,25 +35,31 @@ export default function Modal({ isOpen, onClose, modalId, data, onAction }: Moda
 
   return (
     <div 
-      className="fixed inset-0 bg-[#0a0a19]/55 backdrop-blur-md flex items-center justify-center p-4 z-[1500]" 
+      className="fixed inset-0 bg-neutral-black/55 backdrop-blur-md flex items-center justify-center p-4 z-[1500]" 
       onClick={onClose}
     >
-      <div 
-        className={`bg-white text-gray-900 rounded-[16px] shadow-2xl p-8 relative w-full ${maxWidth} transition-all animate-in fade-in zoom-in duration-200`}
+      <div
+        className={`bg-card text-foreground border border-border rounded-[14px] ${maxWidth} w-full shadow-[0_20px_60px_rgba(0,0,0,0.45)] p-8 relative animate-[fadeIn_0.25s_ease] max-h-[80vh] overflow-y-auto`}
         onClick={(e) => e.stopPropagation()}
       >
-        <button onClick={onClose} className="absolute top-5 right-5 text-gray-400 hover:text-red-500 transition-colors">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 bg-transparent border-none text-muted-foreground text-2xl cursor-pointer transition-colors duration-200 hover:text-foreground"
+          aria-label="بستن"
+        >
+          ×
         </button>
 
-        <ContentComponent 
-          data={data} 
-          onClose={onClose} 
-          onConfirm={() => onAction && onAction(data)}
-          onSubmit={onAction} 
-        />
+        {modalId === 'accounts' || modalId === 'about' || modalId === 'rules' ? (
+          <ContentComponent />
+        ) : (
+          <ContentComponent 
+            data={data} 
+            onClose={onClose} 
+            onConfirm={() => onAction && onAction(data)}
+            onSubmit={onAction} 
+          />
+        )}
       </div>
     </div>
   );

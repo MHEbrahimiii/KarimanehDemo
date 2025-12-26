@@ -3,15 +3,15 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/context/auth-context";
 
-const vazirmatn = localFont({
+const iranyekan = localFont({
   src: [
     {
-      path: "../assets/fonts/Vazirmatn-Thin.woff2",
+      path: "../assets/fonts/IRANYekanThin.ttf",
       weight: "100",
       style: "normal",
     },
     {
-      path: "../assets/fonts/Vazirmatn-ExtraLight.woff2",
+      path: "../assets/fonts/IRANYekanLight.ttf",
       weight: "200",
       style: "normal",
     },
@@ -21,38 +21,34 @@ const vazirmatn = localFont({
       style: "normal",
     },
     {
-      path: "../assets/fonts/Vazirmatn-Regular.woff2",
+      path: "../assets/fonts/IRANYekanRegularFaNum.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../assets/fonts/Vazirmatn-Medium.woff2",
+      path: "../assets/fonts/IRANYekanMediumFaNum.ttf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../assets/fonts/Vazirmatn-SemiBold.woff2",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/Vazirmatn-Bold.woff2",
+      path: "../assets/fonts/IRANYekanBoldFaNum.ttf",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../assets/fonts/Vazirmatn-ExtraBold.woff2",
+      path: "../assets/fonts/IRANYekanExtraBoldFaNum.ttf",
       weight: "800",
       style: "normal",
     },
     {
-      path: "../assets/fonts/Vazirmatn-Black.woff2",
+      path: "../assets/fonts/IRANYekanBlackFaNum.ttf",
       weight: "900",
       style: "normal",
     },
   ],
-  variable: "--font-vazirmatn",
+  variable: "--font-iranyekan",
   display: "swap",
+  fallback: ["sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -68,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${vazirmatn.variable} antialiased font-vazir`}
+        className={`${iranyekan.variable} antialiased font-iranyekan`}
       >
         <AuthProvider>{children}</AuthProvider>
       </body>
