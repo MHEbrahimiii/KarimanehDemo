@@ -10,6 +10,7 @@ import {
   ClipboardEvent,
   FormEvent,
   KeyboardEvent,
+  Suspense,
 } from "react";
 import { useAuth } from "@/context/auth-context";
 
@@ -32,7 +33,7 @@ const fakeResendOtp = (user: string) =>
     setTimeout(resolve, 800);
   });
 
-export default function VerifyPage() {
+function VerifyPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuth();
@@ -250,3 +251,16 @@ export default function VerifyPage() {
   );
 }
 
+export default function VerifyPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-neutral-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-neutral-70">در حال بارگذاری...</p>
+        </div>
+      </div>
+    }>
+      <VerifyPageContent />
+    </Suspense>
+  );
+}

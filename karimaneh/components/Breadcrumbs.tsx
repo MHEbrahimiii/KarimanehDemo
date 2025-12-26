@@ -18,15 +18,16 @@ export default function DashboardBreadcrumb({
 }: DashboardBreadcrumbProps) {
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className="flex
+      m-[20px]">
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/dashboard">پیشخوان</Link>
+            <Link href="/dashboard" className="text-[21px]">پیشخوان</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>{current}</BreadcrumbPage>
+          <BreadcrumbPage className="text-[21px]">{current}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
