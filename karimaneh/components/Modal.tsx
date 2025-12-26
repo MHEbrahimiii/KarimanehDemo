@@ -2,6 +2,9 @@
 import MemberInfoContent from '@/components/modals/infoModalContent';
 import AddEditMemberContent from '@/components/modals/memberModalContent';
 import DeactivateMemberContent from '@/components/modals/deactiveModalContent';
+import AccountsModalContent from '@/components/modals/AccountsModalContent';
+import AboutModalContent from '@/components/modals/AboutModalContent';
+import RulesModalContent from '@/components/modals/RulesModalContent';
 import { ComponentType } from 'react';
 
 interface ModalProps {
@@ -15,7 +18,10 @@ interface ModalProps {
 const modalComponents: Record<string, ComponentType<any>> = {
   viewMember: MemberInfoContent,
   memberForm: AddEditMemberContent,
-  deactivate: DeactivateMemberContent, 
+  deactivate: DeactivateMemberContent,
+  accounts: AccountsModalContent,
+  about: AboutModalContent,
+  rules: RulesModalContent,
 };
 
 export default function Modal({ isOpen, onClose, modalId, data, onAction }: ModalProps) {

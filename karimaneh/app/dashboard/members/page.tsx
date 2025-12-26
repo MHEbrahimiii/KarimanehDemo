@@ -57,12 +57,19 @@ export default function MembersPage() {
     }
   };
 
+  const handleAddMember = (newMember: Member) => {
+    setMembers(prev => [...prev, newMember]);
+    setActiveModal(null);
+    setCurrentPage(1);
+  };
+
   const filteredMembers = members.filter((member) => {
     const matchesSearch = member.fullName.includes(searchTerm) || member.nationalCode.includes(searchTerm);
     const matchesTab = currentTab === 'active' ? member.status === 'active' : true;
     return matchesSearch && matchesTab;
   });
 
+  const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
   const paginatedMembers = filteredMembers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
@@ -193,7 +200,13 @@ export default function MembersPage() {
         onClose={() => setActiveModal(null)} 
         modalId={activeModal || ''} 
         data={selectedMember} 
-        onAction={activeModal === 'deactivate' ? (member: Member) => handleDeactivate(member?.id || 0) : undefined}
+        onAction={
+          activeModal === 'deactivate' 
+            ? (member: Member) => handleDeactivate(member?.id || 0)
+            : activeModal === 'memberForm'
+            ? (member: Member) => handleAddMember(member)
+            : undefined
+        }
       />
     </div>
   );

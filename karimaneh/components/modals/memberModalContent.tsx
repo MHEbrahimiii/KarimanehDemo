@@ -1,6 +1,7 @@
 'use client';
 import { IconUpload, IconInfoCircle } from "@tabler/icons-react";
 import { useState } from "react";
+import { toPersianDigits } from "@/utils/persianNumbers";
 
 interface Member {
   id: number;
@@ -121,7 +122,7 @@ export default function AddMemberContent({ onClose, onSubmit }: AddMemberContent
                 type="text" 
                 maxLength={10}
                 value={formData.nationalCode}
-                onChange={(e) => handleInputChange('nationalCode', e.target.value.replace(/\D/g, ''))}
+                onChange={(e) => handleInputChange('nationalCode', toPersianDigits(e.target.value.replace(/\D/g, '')))}
                 className={`w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500/10 transition-all ${errors.nationalCode ? 'border-red-500' : 'border-gray-100'}`}
               />
               {errors.nationalCode && <p className="text-xs text-red-500 mt-1">{errors.nationalCode}</p>}
@@ -131,7 +132,7 @@ export default function AddMemberContent({ onClose, onSubmit }: AddMemberContent
               <input 
                 type="text" 
                 value={formData.phonenumber}
-                onChange={(e) => handleInputChange('phonenumber', e.target.value)}
+                onChange={(e) => handleInputChange('phonenumber', toPersianDigits(e.target.value))}
                 className={`w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500/10 transition-all ${errors.phonenumber ? 'border-red-500' : 'border-gray-100'}`}
               />
               {errors.phonenumber && <p className="text-xs text-red-500 mt-1">{errors.phonenumber}</p>}
