@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, {
   createContext,
@@ -6,11 +6,14 @@ import React, {
   useState,
   useEffect,
   useMemo,
-} from "react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { IconMenu2, IconX, IconLogout } from "@tabler/icons-react";
-import { useAuth } from "@/context/auth-context";
+} from 'react';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { IconMenu2, IconX, IconLogout } from '@tabler/icons-react';
+import { useAuth } from '@/context/auth-context';
+import LogoutModal from '@/components/modals/LogoutModal';
+
+/* ================= CONTEXT ================= */
 
 interface SidebarContextProps {
   mobileOpen: boolean;
@@ -22,7 +25,7 @@ const SidebarContext = createContext<SidebarContextProps | null>(null);
 export const useSidebar = () => {
   const ctx = useContext(SidebarContext);
   if (!ctx) {
-    throw new Error("useSidebar must be used inside SidebarProvider");
+    throw new Error('useSidebar must be used inside SidebarProvider');
   }
   return ctx;
 };
@@ -35,9 +38,9 @@ export const SidebarProvider = ({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [mobileOpen]);
 
@@ -57,6 +60,8 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
   return <SidebarProvider>{children}</SidebarProvider>;
 };
 
+/* ================= DESKTOP ================= */
+
 export const DesktopSidebar = ({
   className,
   children,
@@ -67,7 +72,7 @@ export const DesktopSidebar = ({
   return (
     <aside
       className={cn(
-        "hidden md:flex md:flex-col h-screen w-[300px] shrink-0 bg-primary-100 border-l border-white/10",
+        'hidden md:flex md:flex-col h-screen w-[300px] shrink-0 bg-primary-100 border-l border-white/10',
         className
       )}
     >
@@ -75,6 +80,8 @@ export const DesktopSidebar = ({
     </aside>
   );
 };
+
+/* ================= MOBILE ================= */
 
 export const MobileSidebar = ({ children }: { children: React.ReactNode }) => {
   const { mobileOpen, setMobileOpen } = useSidebar();
@@ -110,6 +117,8 @@ export const MobileSidebar = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+/* ================= HEADER ================= */
+
 export const SidebarHeader = ({
   logo,
   title,
@@ -124,6 +133,8 @@ export const SidebarHeader = ({
     </div>
   );
 };
+
+/* ================= LINKS ================= */
 
 interface SidebarLinkProps {
   href: string;
@@ -142,7 +153,7 @@ export const SidebarLink = ({
     <Link
       href={href}
       className={cn(
-        "flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-white/10 transition-colors",
+        'flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-white/10 transition-colors',
         className
       )}
     >
@@ -152,41 +163,55 @@ export const SidebarLink = ({
   );
 };
 
+/* ================= USER + LOGOUT MODAL ================= */
+
 interface SidebarUserProps {
   name: string;
   role: string;
   avatar?: React.ReactNode;
-  onLogout?: () => void;
 }
 
 export const SidebarUser = ({
   name,
   role,
   avatar,
-  onLogout,
 }: SidebarUserProps) => {
   const { logout } = useAuth();
+  const { setMobileOpen } = useSidebar();
+  const [open, setOpen] = useState(false);
 
-  const handleLogout = () => {
-    onLogout ? onLogout() : logout();
+  const handleConfirmLogout = () => {
+    setOpen(false);
+    setMobileOpen(false);
+    logout();
   };
 
   return (
-    <div className="mt-auto px-4 py-4 border-t border-white/10 flex items-center gap-3">
-      {avatar}
-      <div className="flex-1 min-w-0">
-        <p className="text-white text-sm font-medium truncate">{name}</p>
-        <p className="text-white/70 text-xs truncate">{role}</p>
+    <>
+      <div className="mt-auto px-4 py-4 border-t border-white/10 flex items-center gap-3">
+        {avatar}
+
+        <div className="flex-1 min-w-0">
+          <p className="text-white text-sm font-medium truncate">{name}</p>
+          <p className="text-white/70 text-xs truncate">{role}</p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="خروج"
+          className="text-white/70 hover:text-white transition-colors"
+        >
+          <IconLogout className="w-5 h-5" />
+        </button>
       </div>
-      <button
-        type="button"
-        onClick={handleLogout}
-        aria-label="خروج"
-        className="text-white/70 hover:text-white transition-colors"
-      >
-        <IconLogout className="w-5 h-5" />
-      </button>
-    </div>
+
+      <LogoutModal
+        open={open}
+        onClose={() => setOpen(false)}
+        onConfirm={handleConfirmLogout}
+      />
+    </>
   );
 };
 

@@ -6,12 +6,25 @@ import { AuthProvider } from "@/context/auth-context";
 const iranyekan = localFont({
   src: [
     {
+<<<<<<< HEAD
       path: "../assets/fonts/IRANYekanThinFaNum.ttf",
+=======
+      path: "../assets/fonts/IRANYekanThin.ttf",
+>>>>>>> afa523f618daea4ff7f0014696e1b21282c95a9d
       weight: "100",
       style: "normal",
     },
     {
+<<<<<<< HEAD
       path: "../assets/fonts/IRANYekanLightFaNum.ttf",
+=======
+      path: "../assets/fonts/IRANYekanLight.ttf",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/Vazirmatn-Light.woff2",
+>>>>>>> afa523f618daea4ff7f0014696e1b21282c95a9d
       weight: "300",
       style: "normal",
     },
