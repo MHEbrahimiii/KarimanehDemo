@@ -14,7 +14,6 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-<<<<<<< HEAD
   /* Primary Colors - Reference from :root */
   --color-primary-10: var(--primary-10);
   --color-primary-20: var(--primary-20);
@@ -27,19 +26,6 @@
   --color-primary-90: var(--primary-90);
   --color-primary-100: var(--primary-100);
   --color-primary-110: var(--primary-110);
-=======
-  --color-primary-10: #F5F3FF;
-  --color-primary-20: #E6DEFF;
-  --color-primary-30: #D4C7FF;
-  --color-primary-40: #B8A5FF;
-  --color-primary-50: #9B83FF;
-  --color-primary-60: #7C5CFF;
-  --color-primary-70: #846DD8;
-  --color-primary-80: #4C2FB6;
-  --color-primary-90: #3A217A;
-  --color-primary-100: #2F1D72;
-  --color-primary-110: #1E144E;
->>>>>>> afa523f618daea4ff7f0014696e1b21282c95a9d
 
   /* Secondary Colors - Reference from :root */
   --color-secondary-10: var(--secondary-10);
