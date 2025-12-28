@@ -24,14 +24,21 @@ const modalComponents: Record<string, ComponentType<any>> = {
   rules: RulesModalContent,
 };
 
+const STATELESS_MODALS = new Set(['accounts', 'about', 'rules']);
+
+const MODAL_MAX_WIDTH: Record<string, string> = {
+  memberForm: 'max-w-[900px]',
+  default: 'max-w-[450px]',
+};
+
 export default function Modal({ isOpen, onClose, modalId, data, onAction }: ModalProps) {
   if (!isOpen) return null;
 
   const ContentComponent = modalComponents[modalId];
   if (!ContentComponent) return null;
 
-  
-  const maxWidth = modalId === 'memberForm' ? 'max-w-[900px]' : 'max-w-[450px]';
+  const isStateless = STATELESS_MODALS.has(modalId);
+  const maxWidth = MODAL_MAX_WIDTH[modalId] || MODAL_MAX_WIDTH.default;
 
   return (
     <div 
@@ -50,13 +57,13 @@ export default function Modal({ isOpen, onClose, modalId, data, onAction }: Moda
           ×
         </button>
 
-        {modalId === 'accounts' || modalId === 'about' || modalId === 'rules' ? (
+        {isStateless ? (
           <ContentComponent />
         ) : (
           <ContentComponent 
             data={data} 
             onClose={onClose} 
-            onConfirm={() => onAction && onAction(data)}
+            onConfirm={() => onAction?.(data)}
             onSubmit={onAction} 
           />
         )}

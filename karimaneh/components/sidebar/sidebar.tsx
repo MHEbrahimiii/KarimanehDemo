@@ -13,8 +13,6 @@ import { IconMenu2, IconX, IconLogout } from '@tabler/icons-react';
 import { useAuth } from '@/context/auth-context';
 import LogoutModal from '@/components/modals/LogoutModal';
 
-/* ================= CONTEXT ================= */
-
 interface SidebarContextProps {
   mobileOpen: boolean;
   setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -60,8 +58,6 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
   return <SidebarProvider>{children}</SidebarProvider>;
 };
 
-/* ================= DESKTOP ================= */
-
 export const DesktopSidebar = ({
   className,
   children,
@@ -80,8 +76,6 @@ export const DesktopSidebar = ({
     </aside>
   );
 };
-
-/* ================= MOBILE ================= */
 
 export const MobileSidebar = ({ children }: { children: React.ReactNode }) => {
   const { mobileOpen, setMobileOpen } = useSidebar();
@@ -117,8 +111,6 @@ export const MobileSidebar = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-/* ================= HEADER ================= */
-
 export const SidebarHeader = ({
   logo,
   title,
@@ -133,8 +125,6 @@ export const SidebarHeader = ({
     </div>
   );
 };
-
-/* ================= LINKS ================= */
 
 interface SidebarLinkProps {
   href: string;
@@ -163,19 +153,58 @@ export const SidebarLink = ({
   );
 };
 
-/* ================= USER + LOGOUT MODAL ================= */
-
-interface SidebarUserProps {
+interface SidebarUserProfileProps {
   name: string;
   role: string;
   avatar?: React.ReactNode;
 }
 
-export const SidebarUser = ({
+export const SidebarUserProfile = ({
   name,
   role,
   avatar,
-}: SidebarUserProps) => {
+}: SidebarUserProfileProps) => {
+  return (
+    <div className="px-4 py-4 border-b border-white/10 flex items-center gap-3">
+      {avatar}
+
+      <div className="flex-1 min-w-0">
+        <p className="text-white text-sm font-medium truncate">{name}</p>
+        <p className="text-white/70 text-xs truncate">{role}</p>
+      </div>
+    </div>
+  );
+};
+
+interface SidebarButtonProps {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  className?: string;
+}
+
+export const SidebarButton = ({
+  icon,
+  label,
+  onClick,
+  className,
+}: SidebarButtonProps) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        'flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-white/10 transition-colors',
+        className
+      )}
+    >
+      {icon}
+      <span className="text-sm font-medium">{label}</span>
+    </button>
+  );
+};
+
+export const SidebarLogoutButton = ({ className }: { className?: string }) => {
   const { logout } = useAuth();
   const { setMobileOpen } = useSidebar();
   const [open, setOpen] = useState(false);
@@ -188,24 +217,12 @@ export const SidebarUser = ({
 
   return (
     <>
-      <div className="mt-auto px-4 py-4 border-t border-white/10 flex items-center gap-3">
-        {avatar}
-
-        <div className="flex-1 min-w-0">
-          <p className="text-white text-sm font-medium truncate">{name}</p>
-          <p className="text-white/70 text-xs truncate">{role}</p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="خروج"
-          className="text-white/70 hover:text-white transition-colors"
-        >
-          <IconLogout className="w-5 h-5" />
-        </button>
-      </div>
-
+      <SidebarButton
+        icon={<IconLogout className="text-white h-5 w-5" />}
+        label="خروج"
+        onClick={() => setOpen(true)}
+        className={className}
+      />
       <LogoutModal
         open={open}
         onClose={() => setOpen(false)}

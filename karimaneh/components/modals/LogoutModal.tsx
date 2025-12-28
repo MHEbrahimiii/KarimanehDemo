@@ -31,24 +31,20 @@ export default function LogoutModal({
             exit={{ scale: 0.9, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Icon */}
             <div className="mb-4 flex justify-center">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-100 text-red-500 text-xl">
                 ⎋
               </div>
             </div>
 
-            {/* Title */}
             <h2 className="mb-2 text-center text-xl font-bold text-gray-800">
               خروج از حساب کاربری
             </h2>
 
-            {/* Description */}
             <p className="mb-6 text-center text-gray-500">
               آیا از خروج از حساب کاربری اطمینان دارید؟
             </p>
 
-            {/* Actions */}
             <div className="flex gap-4">
               <button
                 onClick={onConfirm}

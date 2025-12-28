@@ -7,12 +7,14 @@ import {
   useMemo,
   useRef,
   useState,
+  useCallback,
   ClipboardEvent,
   FormEvent,
   KeyboardEvent,
   Suspense,
 } from "react";
 import { useAuth } from "@/context/auth-context";
+import { OtpSchema, getDisplayRole, normalizeRole } from "@/lib/schemas";
 
 const CODE_LENGTH = 5;
 
@@ -46,12 +48,55 @@ function VerifyPageContent() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+  const hasAutoSubmitted = useRef(false);
+
+  const displayUser = user;
+
+  const submitCode = useCallback(async (codeToSubmit: string) => {
+    const validation = OtpSchema.safeParse({ code: codeToSubmit });
+    if (!validation.success) {
+      setError(validation.error.issues[0]?.message || "کد نامعتبر است");
+      return;
+    }
+
+    setError("");
+    setMessage("");
+    setLoading(true);
+
+    try {
+      await fakeVerifyOtp(codeToSubmit);
+      setMessage("ورود موفقیت‌آمیز بود. در حال انتقال...");
+      
+      const userRole = normalizeRole(displayUser.toLowerCase().includes("admin") ? "admin" : "member");
+      
+      login({
+        name: displayUser,
+        role: getDisplayRole(userRole),
+      });
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "خطا در تایید کد. دوباره تلاش کنید."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [displayUser, login]);
 
   useEffect(() => {
     inputsRef.current[0]?.focus();
   }, []);
 
-  const displayUser = useMemo(() => user, [user]);
+  useEffect(() => {
+    const joined = code.join("");
+    if (joined.length < CODE_LENGTH) {
+      hasAutoSubmitted.current = false;
+      return;
+    }
+    if (joined.length === CODE_LENGTH && !loading && !hasAutoSubmitted.current) {
+      hasAutoSubmitted.current = true;
+      submitCode(joined).catch(() => {});
+    }
+  }, [code, loading, submitCode]);
 
   const handleChange = (index: number, value: string) => {
     const digit = value.replace(/\D/g, "");
@@ -59,6 +104,9 @@ function VerifyPageContent() {
     nextCode[index] = digit.slice(-1);
     setCode(nextCode);
     setError("");
+    if (hasAutoSubmitted.current) {
+      hasAutoSubmitted.current = false;
+    }
     if (digit && index < CODE_LENGTH - 1) {
       inputsRef.current[index + 1]?.focus();
     }
@@ -80,8 +128,10 @@ function VerifyPageContent() {
 
     if (!pasted.length) return;
 
+    hasAutoSubmitted.current = false;
     const next = Array.from({ length: CODE_LENGTH }, (_, idx) => pasted[idx] || "");
     setCode(next);
+    setError("");
     const lastFilledIndex = Math.min(pasted.length, CODE_LENGTH) - 1;
     inputsRef.current[lastFilledIndex]?.focus();
   };
@@ -89,39 +139,14 @@ function VerifyPageContent() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const joined = code.join("");
-
-    if (joined.length < CODE_LENGTH) {
-      setError("کد ۵ رقمی را کامل وارد کنید.");
-      return;
-    }
-
-    setError("");
-    setMessage("");
-    setLoading(true);
-
-    try {
-      await fakeVerifyOtp(joined);
-      setMessage("ورود موفقیت‌آمیز بود. در حال انتقال...");
-      
-      login({
-        name: displayUser,
-        role: "مدیر صندوق",
-      });
-      
-      setTimeout(() => router.push("/dashboard"), 500);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "خطا در تایید کد. دوباره تلاش کنید."
-      );
-    } finally {
-      setLoading(false);
-    }
+    await submitCode(joined);
   };
 
   const handleResend = async () => {
     setResendLoading(true);
     setMessage("");
     setError("");
+    hasAutoSubmitted.current = false;
     try {
       await fakeResendOtp(user);
       setMessage("کد جدید ارسال شد.");

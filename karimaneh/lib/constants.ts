@@ -8,3 +8,4 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   support: "پشتیبانی اعضا",
   settings: "تنظیمات",
 };
+

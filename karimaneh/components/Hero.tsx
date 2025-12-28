@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { images } from '@/utils/images';
+import { images } from '@/lib/images';
 import { useState } from 'react';
 import Modal from './Modal';
 import Link from 'next/link';
