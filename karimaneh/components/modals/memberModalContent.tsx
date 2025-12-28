@@ -1,6 +1,7 @@
 'use client';
 import { IconUpload, IconInfoCircle } from "@tabler/icons-react";
 import { useState } from "react";
+import { toPersianDigits } from "@/utils/persianNumbers";
 
 interface Member {
   id: number;
