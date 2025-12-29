@@ -24,3 +24,22 @@ export function toEnglishDigits(str: string): string {
   return result;
 }
 
+export function toShamsiDate(date: Date): string {
+  const gYear = date.getFullYear();
+  const gMonth = date.getMonth() + 1;
+  const gDay = date.getDate();
+  
+  const shamsiYear = gYear - 621;
+  const shamsiMonth = gMonth > 3 ? gMonth - 3 : gMonth + 9;
+  const shamsiDay = gDay;
+  
+  return `${shamsiYear}/${String(shamsiMonth).padStart(2, '0')}/${String(shamsiDay).padStart(2, '0')}`;
+}
+
+export function formatShamsiDate(dateStr: string): string {
+  if (/[۰-۹]/.test(dateStr)) {
+    return dateStr;
+  }
+  return toPersianDigits(dateStr);
+}
+

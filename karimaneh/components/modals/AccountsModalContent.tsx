@@ -11,7 +11,16 @@ interface AccountItem {
   type: 'account' | 'card' | 'iban';
 }
 
-const accountData: AccountItem[] = [
+interface AccountsModalContentProps {
+  data?: {
+    accountNumber?: string;
+    cardNumber?: string;
+    iban?: string;
+    bankName?: string;
+  };
+}
+
+const defaultAccountData: AccountItem[] = [
   {
     label: 'شماره حساب',
     value: '0302-500302-213-2305',
@@ -29,7 +38,24 @@ const accountData: AccountItem[] = [
   },
 ];
 
-export default function AccountsModalContent() {
+export default function AccountsModalContent({ data }: AccountsModalContentProps = {}) {
+  const accountData: AccountItem[] = data ? [
+    {
+      label: 'شماره حساب',
+      value: data.accountNumber || defaultAccountData[0].value,
+      type: 'account',
+    },
+    {
+      label: 'شماره کارت',
+      value: data.cardNumber || defaultAccountData[1].value,
+      type: 'card',
+    },
+    {
+      label: 'شماره شبا',
+      value: data.iban || defaultAccountData[2].value,
+      type: 'iban',
+    },
+  ] : defaultAccountData;
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
 
   const handleCopy = async (value: string, type: string) => {
@@ -62,7 +88,7 @@ export default function AccountsModalContent() {
         شماره حساب های صندوق
       </h2>
 
-      <p className="text-lg text-muted-foreground mb-8">بانک سامان</p>
+      <p className="text-lg text-muted-foreground mb-8">{data?.bankName || 'بانک سامان'}</p>
       <div className="space-y-4">
         {accountData.map((item) => (
           <div

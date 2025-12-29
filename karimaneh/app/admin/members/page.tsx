@@ -5,17 +5,8 @@ import { IconChevronRight, IconChevronLeft, IconPlus, IconSearch } from "@tabler
 import { useState } from "react";
 import Image from "next/image";
 import { images } from '@/public/images/images';
-import Modal from "@/components/Modal"; 
-
-interface Member {
-  id: number;
-  fullName: string;
-  nationalCode: string;
-  fatherName?: string;
-  receivedLoans?: string;
-  phonenumber: string;
-  status: 'active' | 'inactive';
-}
+import Modal from "@/components/Modal";
+import { tableData, Member } from "@/mock/tables";
 
 const COLUMNS = [
   { header: "نام و نام خانوادگی", accessor: "fullName" },
@@ -27,14 +18,7 @@ const COLUMNS = [
 ] as const;
 
 export default function MembersPage() {
-  const [members, setMembers] = useState<Member[]>([
-    { id: 1, fullName: "رضا زاهدی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "علی", receivedLoans: "۷,۲۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۴۵۶۷۸۹", status: "active" },
-    { id: 2, fullName: "ایمان عباسی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "رضا", receivedLoans: "۵,۱۰۰,۰۰۰", phonenumber: "۰۹۱۷۸۸۸۶۷۸۹", status: "active" },
-    { id: 3, fullName: "کامران ساده", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "حسن", receivedLoans: "۵,۶۰۰,۰۰۰", phonenumber: "۰۹۱۴۵۵۵۵۷۸۹", status: "inactive" },
-    { id: 4, fullName: "سینا زالی‌پور", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "اسماعیل", receivedLoans: "۷,۹۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۵۵۴۸۴۷", status: "active" },
-    { id: 5, fullName: "علی اکبری", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ایلیا", receivedLoans: "۲,۲۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۴۵۵۷۸۹", status: "active" },
-    { id: 6, fullName: "راشا نامدار", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "یاور", receivedLoans: "۳,۲۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۶۵۳۴۸۹", status: "inactive" },
-  ]);
+  const [members, setMembers] = useState<Member[]>(tableData.members);
 
   const [activeModal, setActiveModal] = useState<'viewMember' | 'memberForm' | 'deactivate' | null>(null);
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);

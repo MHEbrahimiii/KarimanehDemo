@@ -1,4 +1,4 @@
-import {
+﻿import {
   LineChart,
   Line,
   XAxis,
@@ -20,7 +20,7 @@ export default function BalanceLineChart({ balances }: any) {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={data} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
+      <LineChart data={data} >
         <CartesianGrid stroke="var(--gray-30)" vertical={false} />
         <XAxis 
           dataKey="name" 
@@ -31,7 +31,6 @@ export default function BalanceLineChart({ balances }: any) {
           angle={-45}
           textAnchor="end"
           height={50}
-          label={{ value: "ماه", position: "insideBottomRight", offset: -5, style: { textAnchor: "end", fontSize: 10, fill: "var(--gray-80)" } }}
         />
         <YAxis 
           tick={{ fontSize: 10, fill: "var(--gray-80)" }}
@@ -39,7 +38,6 @@ export default function BalanceLineChart({ balances }: any) {
           tickLine={false}
           domain={[0, yAxisMax]}
           tickFormatter={(value) => toPersianDigits(value.toString())}
-          label={{ value: "میلیون", angle: -90, position: "insideTopLeft", offset: 10, style: { textAnchor: "middle", fontSize: 10, fill: "var(--gray-80)" } }}
         />
         <RTooltip />
         <Line
@@ -54,3 +52,4 @@ export default function BalanceLineChart({ balances }: any) {
     </ResponsiveContainer>
   );
 }
+

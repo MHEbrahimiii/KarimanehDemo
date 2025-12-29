@@ -94,7 +94,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-80 leading-tight">وام‌های فعال من</p>
-                    <p className="text-lg font-bold text-secondary-100 leading-tight">۲ مورد</p>
+                    <p className="text-lg font-bold text-secondary-100 leading-tight">
+                      {data?.heroStats?.[0]?.value || "۰ مورد"}
+                    </p>
                   </div>
 
                   <div className="bg-neutral-white p-3 rounded-lg border border-gray-30 shadow-sm flex flex-col gap-1.5">
@@ -104,7 +106,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-500 leading-tight">موجودی حساب من</p>
-                    <p className="text-lg font-bold text-[#A07800] leading-tight">ریال ۵,۰۰۰,۰۰۰</p>
+                    <p className="text-lg font-bold text-[#A07800] leading-tight">
+                      {data?.heroStats?.[1]?.value || "ریال ۰"}
+                    </p>
                   </div>
 
                   <div className="bg-neutral-white p-3 rounded-lg border border-gray-30 shadow-sm flex flex-col gap-1.5">
@@ -114,7 +118,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-500 leading-tight">بدهی معوق</p>
-                    <p className="text-lg font-bold text-[#A07800] leading-tight">ریال ۰</p>
+                    <p className="text-lg font-bold text-[#A07800] leading-tight">
+                      {data?.heroStats?.[2]?.value || "ریال ۰"}
+                    </p>
                   </div>
 
                   <div className="bg-neutral-white p-3 rounded-lg border border-gray-30 shadow-sm flex flex-col gap-1.5">
@@ -124,7 +130,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-500 leading-tight">تیکت‌های من</p>
-                    <p className="text-lg font-bold text-secondary-100 leading-tight">۱</p>
+                    <p className="text-lg font-bold text-secondary-100 leading-tight">
+                      {data?.tickets?.count || "۰"}
+                    </p>
                   </div>
                 </div>
 

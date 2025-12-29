@@ -1,4 +1,4 @@
-import {
+﻿import {
   AreaChart,
   Area,
   ResponsiveContainer,
@@ -49,7 +49,7 @@ export default function GlobalAreaChart({ paidLoans }: any) {
     ];
   });
 
-  const yAxisMax = 40;
+  const yAxisMax = 60;
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -69,16 +69,16 @@ export default function GlobalAreaChart({ paidLoans }: any) {
           angle={-45}
           textAnchor="end"
           height={50}
-          label={{ value: "ماه", position: "insideBottomRight", offset: -5, style: { textAnchor: "end", fontSize: 10, fill: "var(--gray-80)" } }}
+          
         />
         <YAxis 
           tick={{ fontSize: 10, fill: "var(--gray-80)" }}
           axisLine={false}
           tickLine={false}
           domain={[0, yAxisMax]}
-          ticks={[0, 10, 20, 30, 40]}
+          ticks={[0, 10, 30, 40, 50]}
           tickFormatter={(value) => toPersianDigits(value.toString())}
-          label={{ value: "میلیون", angle: -90, position: "insideTopLeft", offset: 10, style: { textAnchor: "middle", fontSize: 10, fill: "var(--gray-80)" } }}
+          
         />
 
         <Area
@@ -94,3 +94,4 @@ export default function GlobalAreaChart({ paidLoans }: any) {
     </ResponsiveContainer>
   );
 }
+

@@ -94,7 +94,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-80 leading-tight">درخواست های وام جدید</p>
-                    <p className="text-lg font-bold text-secondary-100 leading-tight">۲ نفر</p>
+                    <p className="text-lg font-bold text-secondary-100 leading-tight">
+                      {data?.heroStats?.[2]?.value || "۰ نفر"}
+                    </p>
                   </div>
 
                   <div className="bg-neutral-white p-3 rounded-lg border border-gray-30 shadow-sm flex flex-col gap-1.5">
@@ -104,7 +106,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-500 leading-tight">تعداد اعضای صندوق</p>
-                    <p className="text-lg font-bold text-[#A07800] leading-tight">۲۳ نفر</p>
+                    <p className="text-lg font-bold text-[#A07800] leading-tight">
+                      {data?.heroStats?.[1]?.value || "۰ نفر"}
+                    </p>
                   </div>
 
                   <div className="bg-neutral-white p-3 rounded-lg border border-gray-30 shadow-sm flex flex-col gap-1.5">
@@ -114,7 +118,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-500 leading-tight">موجودی صندوق</p>
-                    <p className="text-lg font-bold text-[#A07800] leading-tight">ریال ۵۰۰,۰۰۰,۰۰۰</p>
+                    <p className="text-lg font-bold text-[#A07800] leading-tight">
+                      {data?.heroStats?.[0]?.value || "ریال ۰"}
+                    </p>
                   </div>
 
                   <div className="bg-neutral-white p-3 rounded-lg border border-gray-30 shadow-sm flex flex-col gap-1.5">
@@ -124,7 +130,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-500 leading-tight">آخرین واریزی</p>
-                    <p className="text-lg font-bold text-[#A07800] leading-tight">ریال ۲۰,۰۰۰,۰۰۰</p>
+                    <p className="text-lg font-bold text-[#A07800] leading-tight">
+                      {data?.heroStats?.[3]?.value || "ریال ۰"}
+                    </p>
                   </div>
 
                   <div className="bg-neutral-white p-3 rounded-lg border border-gray-30 shadow-sm flex flex-col gap-1.5">
@@ -134,7 +142,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-500 leading-tight">معوقات</p>
-                    <p className="text-lg font-bold text-[#A07800] leading-tight">ریال ۱۰۰,۰۰۰,۰۰۰</p>
+                    <p className="text-lg font-bold text-[#A07800] leading-tight">
+                      {data?.heroStats?.[4]?.value || "ریال ۰"}
+                    </p>
                   </div>
 
                   <div className="bg-neutral-white p-3 rounded-lg border border-gray-30 shadow-sm flex flex-col gap-1.5">
@@ -144,7 +154,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-500 leading-tight">جدیدترین تیکت ها</p>
-                    <p className="text-lg font-bold text-secondary-100 leading-tight">۲</p>
+                    <p className="text-lg font-bold text-secondary-100 leading-tight">
+                      {data?.tickets?.count || "۰"}
+                    </p>
                   </div>
                 </div>
 
