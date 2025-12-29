@@ -12,5 +12,8 @@ export const images = {
   is : '/images/is.png',
   Not : '/images/Not.png',
   warning : '/images/warning.png',
+  eye : '/images/eye.png',
+  ActiveUser : '/images/ActiveUser.png',
+  User : '/images/User.png',
 };
 export type ImageKey = keyof typeof images;

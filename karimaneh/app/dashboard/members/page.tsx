@@ -1,212 +1,224 @@
 "use client";
-import { toPersianDigits } from "@/utils/persianNumbers";
+import React, { useState, useMemo } from "react";
+import Modal from "@/components/Modal";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import DashboardBreadcrumb from "@/components/Breadcrumbs";
-import { IconChevronRight, IconChevronLeft, IconPlus, IconSearch } from "@tabler/icons-react";
-import { useState } from "react";
-import Image from "next/image";
-import { images } from '@/public/images/images';
-import Modal from "@/components/Modal"; 
+import Switcher7 from "@/components/ui/Switcher7";
+import { toPersianDigits } from "@/utils/persianNumbers";
+
+
+const formatNumber = (numStr: string) => {
+  return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+// --- ICONS ---
+const Icons = {
+  Search: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
+  Plus: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7v14"/></svg>,
+  Info: () => <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>,
+  Eye: () => <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>,
+  ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6"/></svg>,
+  ChevronLeft: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6"/></svg>,
+  Users: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+};
 
 interface Member {
   id: number;
   fullName: string;
   nationalCode: string;
   fatherName?: string;
-  receivedLoans?: string;
-  phonenumber: string;
+  receivedLoans: string;
   status: 'active' | 'inactive';
 }
 
-const COLUMNS = [
-  { header: "نام و نام خانوادگی", accessor: "fullName" },
-  { header: "کد ملی", accessor: "nationalCode" },
-  { header: "نام پدر", accessor: "fatherName" },
-  { header: "وام‌های دریافت شده", accessor: "receivedLoans" },
-  { header: "شماره تلفن", accessor: "phonenumber" },
-  { header: "عملیات", accessor: "actions" },
-] as const;
-
 export default function MembersPage() {
   const [members, setMembers] = useState<Member[]>([
-    { id: 1, fullName: "رضا زاهدی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "علی", receivedLoans: "۷,۲۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۴۵۶۷۸۹", status: "active" },
-    { id: 2, fullName: "ایمان عباسی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "رضا", receivedLoans: "۵,۱۰۰,۰۰۰", phonenumber: "۰۹۱۷۸۸۸۶۷۸۹", status: "active" },
-    { id: 3, fullName: "کامران ساده", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "حسن", receivedLoans: "۵,۶۰۰,۰۰۰", phonenumber: "۰۹۱۴۵۵۵۵۷۸۹", status: "inactive" },
-    { id: 4, fullName: "سینا زالی‌پور", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "اسماعیل", receivedLoans: "۷,۹۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۵۵۴۸۴۷", status: "active" },
-    { id: 5, fullName: "علی اکبری", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ایلیا", receivedLoans: "۲,۲۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۴۵۵۷۸۹", status: "active" },
-    { id: 6, fullName: "راشا نامدار", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "یاور", receivedLoans: "۳,۲۰۰,۰۰۰", phonenumber: "۰۹۱۲۳۶۵۳۴۸۹", status: "inactive" },
+    { id: 1, fullName: "رضا زاهدی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "علی", receivedLoans: "۷۲۰۰۰۰۰", status: "active" },
+    { id: 2, fullName: "ایمان عباسی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "رضا", receivedLoans: "۵۱۰۰۰۰۰", status: "active" },
+    { id: 3, fullName: "کامران ساده", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "حسن", receivedLoans: "۵۶۰۰۰۰۰", status: "inactive" },
+    { id: 4, fullName: "سینا زالی‌پور", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "اسماعیل", receivedLoans: "۷۹۰۰۰۰۰", status: "active" },
+    { id: 5, fullName: "علی اکبری", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ایلیا", receivedLoans: "۲۲۰۰۰۰۰", status: "active" },
+    { id: 6, fullName: "راشا نامدار", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "یاور", receivedLoans: "۳۲۰۰۰۰۰", status: "inactive" },
+    { id: 7, fullName: "محمد نبوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "مرتضی", receivedLoans: "۴۵۰۰۰۰۰", status: "active" },
+    { id: 8, fullName: "سعید کریمی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "جواد", receivedLoans: "۶۱۰۰۰۰۰", status: "active" },
+    { id: 9, fullName: "حمید علوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ناصر", receivedLoans: "۹۰۰۰۰۰۰", status: "inactive" },
+    { id: 10, fullName: "پویا مهدوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "قاسم", receivedLoans: "۳۴۰۰۰۰۰", status: "active" },
   ]);
 
-  const [activeModal, setActiveModal] = useState<'viewMember' | 'memberForm' | 'deactivate' | null>(null);
+  const [activeModal, setActiveModal] = useState<'viewMember' | 'memberForm' | null>(null);
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
   const [currentTab, setCurrentTab] = useState<'all' | 'active'>('all');
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  const openModal = (type: any, member: Member | null = null) => {
+  const openModal = (type: 'viewMember' | 'memberForm', member: Member | null = null) => {
     setSelectedMember(member);
     setActiveModal(type);
   };
 
-  const handleDeactivate = (id: number) => {
-    setMembers(prev => prev.map(m => m.id === id ? { ...m, status: 'inactive' } : m));
-    setActiveModal(null);
-
-    if (currentTab === 'active') {
-      setCurrentPage(1);
-    }
+  const handleToggleStatus = (id: number) => {
+    setMembers(prev => prev.map(m => 
+      m.id === id ? { ...m, status: m.status === 'active' ? 'inactive' : 'active' } : m
+    ));
   };
 
-  const handleAddMember = (newMember: Member) => {
-    setMembers(prev => [...prev, newMember]);
-    setActiveModal(null);
-    setCurrentPage(1);
-  };
+  const filteredMembers = useMemo(() => {
+    return members.filter((member) => {
+      const matchesSearch = member.fullName.includes(searchTerm) || member.nationalCode.includes(searchTerm);
+      const matchesTab = currentTab === 'active' ? member.status === 'active' : true;
+      return matchesSearch && matchesTab;
+    });
+  }, [members, searchTerm, currentTab]);
 
-  const filteredMembers = members.filter((member) => {
-    const matchesSearch = member.fullName.includes(searchTerm) || member.nationalCode.includes(searchTerm);
-    const matchesTab = currentTab === 'active' ? member.status === 'active' : true;
-    return matchesSearch && matchesTab;
-  });
-
-  const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
+  const totalItems = filteredMembers.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
   const paginatedMembers = filteredMembers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+  const startItem = (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
   return (
-    <div className="p-6 bg-background min-h-screen text-right" dir="rtl">
+    <div className="p-6 bg-[#f8f9fa] min-h-screen text-right font-[vazir]" dir="rtl">
       <DashboardBreadcrumb current="اعضا" />
 
-      <div className="bg-card rounded-xl shadow-sm border border-border p-6 mt-6">
+      <div className="bg-white rounded-xl shadow-sm p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div className="relative w-full md:w-80">
-            <span className="absolute inset-y-0 right-3 flex items-center text-muted-foreground">
-              <IconSearch size={18} />
+            <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
+              <Icons.Search />
             </span>
             <input
               type="text"
               placeholder="جستجو..."
-              className="w-full pr-10 pl-4 py-2 border border-input rounded-lg outline-none text-sm bg-background text-foreground"
+              className="w-full pr-10 pl-4 py-2 border border-gray-200 rounded-lg outline-none text-sm bg-white"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <button 
             onClick={() => openModal('memberForm')} 
-            className="flex items-center justify-center gap-2 bg-primary-110 text-white px-4 py-2 rounded-lg text-sm shadow-md hover:bg-primary-100 transition-colors"
+            className="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm shadow-md hover:bg-blue-700 transition-colors"
           >
-            <IconPlus size={20} /> افزودن عضو جدید
+            <Icons.Plus /> عضو جدید
           </button>
         </div>
-        <div className="flex border-b border-border mb-6">
-          {['all', 'active'].map((tab) => (
-            <button
-              key={tab}
-              className={`px-6 py-3 text-sm transition-all ${currentTab === tab ? 'border-b-2 border-primary-80 text-primary-80 font-bold' : 'text-muted-foreground'}`}
-              onClick={() => { setCurrentTab(tab as any); setCurrentPage(1); }}
-            >
-              {tab === 'all' ? 'همه اعضا' : 'اعضای فعال'}
-            </button>
-          ))}
+        <div className="flex border-b border-gray-100 mb-6">
+          <button
+            className={`px-6 py-3 text-sm flex items-center gap-2 transition-all ${currentTab === 'all' ? 'border-b-2 border-blue-600 text-blue-600 font-bold' : 'text-gray-500'}`}
+            onClick={() => { setCurrentTab('all'); setCurrentPage(1); }}
+          >
+            <Icons.Users /> همه اعضا
+          </button>
+          <button
+            className={`px-6 py-3 text-sm flex items-center gap-2 transition-all ${currentTab === 'active' ? 'border-b-2 border-blue-600 text-blue-600 font-bold' : 'text-gray-500'}`}
+            onClick={() => { setCurrentTab('active'); setCurrentPage(1); }}
+          >
+            <div className={`w-2 h-2 rounded-full ${currentTab === 'active' ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
+            اعضای فعال
+          </button>
         </div>
-        <div className="overflow-x-auto rounded-lg border border-border">
+        <div className="overflow-x-auto rounded-lg">
           <table className="w-full text-sm text-right">
             <thead>
-              <tr className="bg-muted border-b border-border">
-                <th className="p-4 w-12 text-center text-muted-foreground">#</th>
-                <th className="p-4 w-12 text-center"><input type="checkbox" className="rounded border-input" /></th>
-                {COLUMNS.map((col) => <th key={col.header} className="p-4 text-muted-foreground font-bold">{col.header}</th>)}
+              <tr className="bg-gray-50">
+                <th className="p-4 w-12 text-center text-gray-500 font-bold">#</th>
+                <th className="p-4 w-12 text-center"><input type="checkbox" className="rounded border-gray-300" /></th>
+                <th className="p-4 text-gray-500 font-bold">نام و نام خانوادگی</th>
+                <th className="p-4 text-gray-500 font-bold">کد ملی</th>
+                <th className="p-4 text-gray-500 font-bold">نام پدر</th>
+                <th className="p-4 text-gray-500 font-bold">موجودی</th>
+                <th className="p-4 text-gray-500 font-bold text-center">وضعیت</th>
+                <th className="p-4 text-gray-500 font-bold text-center">عملیات</th>
               </tr>
             </thead>
             <tbody>
               {paginatedMembers.map((member, index) => (
-                <tr key={member.id} className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors">
-                  <td className="p-4 text-muted-foreground text-center">{toPersianDigits(String(index + 1))}</td>
-                  <td className="p-4 text-center"><input type="checkbox" className="rounded border-input" /></td>
-                  
-                  {COLUMNS.map((col) => (
-                    <td key={col.accessor} className="p-4">
-                      {col.accessor === 'actions' ? (
-                        <div className="flex gap-3 items-center justify-center">
-                          <div className="relative group">
-                            <button 
-                              onClick={() => openModal('viewMember', member)} 
-                              className="hover:scale-110 transition-transform"
-                            >
-                              <Image src={images.info} alt="Info" width={22} height={22} />
-                            </button>
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50">
-                              <div className="flex flex-col items-center">
-                                <span className="bg-[#333] text-white text-[10px] px-3 py-1.5 rounded-md whitespace-nowrap shadow-lg">
-                                  جزئیات
-                                </span>
-                                <div className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#333]"></div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {member.status === 'active' ? (
-                            <div className="relative group">
-                              <button 
-                                onClick={() => openModal('deactivate', member)} 
-                                className="hover:scale-110 transition-transform"
-                              >
-                                <Image src={images.Not} alt="Deactivate" width={22} height={22} />
-                              </button>
-                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50">
-                                <div className="flex flex-col items-center">
-                                  <span className="bg-[#333] text-white text-[10px] px-3 py-1.5 rounded-md whitespace-nowrap shadow-lg">
-                                    غیرفعال کردن عضو
-                                  </span>
-                                  <div className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#333]"></div>
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="relative group">
-                              <Image 
-                                src={images.is} 
-                                alt="Inactive" 
-                                width={22} 
-                                height={22}
-                                className="hover:scale-110 transition-transform"
-                              />
-                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50">
-                                <div className="flex flex-col items-center">
-                                  <span className="bg-[#333] text-white text-[10px] px-3 py-1.5 rounded-md whitespace-nowrap shadow-lg">
-                                    فعال کردن عضو
-                                  </span>
-                                  <div className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#333]"></div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        <span className="font-medium text-foreground">
-                          {col.accessor === 'receivedLoans' ? toPersianDigits(member[col.accessor] || "۰") + " ریال" : member[col.accessor as keyof Member]}
-                        </span>
+                <tr key={member.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="p-4 text-gray-400 text-center font-bold">
+                    {toPersianDigits((currentPage - 1) * itemsPerPage + index + 1)}
+                  </td>
+                  <td className="p-4 text-center"><input type="checkbox" className="rounded border-gray-300" /></td>
+                  <td className="p-4 font-medium text-gray-800">{member.fullName}</td>
+                  <td className="p-4 text-gray-600">{toPersianDigits(member.nationalCode)}</td>
+                  <td className="p-4 text-gray-600">{member.fatherName}</td>
+                  <td className="p-4 font-bold text-gray-700">{toPersianDigits(formatNumber(member.receivedLoans))}</td>
+                  <td className="p-4 text-center">
+                    <Switcher7 checked={member.status === 'active'} onChange={() => handleToggleStatus(member.id)} />
+                  </td>
+                  <td className="p-4">
+                    <div className="flex gap-4 items-center justify-center">
+                      <button onClick={() => openModal('viewMember', member)} className="hover:scale-110 transition-transform" title="جزئیات">
+                        <Icons.Info />
+                      </button>
+                      {member.status === 'inactive' && (
+                        <button className="hover:scale-110 transition-transform text-gray-400" title="نمایش وضعیت">
+                          <Icons.Eye />
+                        </button>
                       )}
-                    </td>
-                  ))}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-4 mt-8 pt-4">
+          
+          {/* Right: Currency Text */}
+          <div className="text-right">
+            <span className="text-[12px] text-gray-500 font-bold bg-gray-50 px-3 py-1.5 rounded-full">
+              مبالغ به ریال است
+            </span>
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <button 
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+              className="p-2 hover:bg-gray-100 rounded-lg disabled:opacity-20 transition-colors"
+            >
+              <Icons.ChevronRight />
+            </button>
+            
+            <div className="flex items-center gap-1">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all text-sm font-bold ${
+                    currentPage === page 
+                      ? 'bg-blue-600 text-white shadow-md' 
+                      : 'hover:bg-gray-100 text-gray-500'
+                  }`}
+                >
+                  {toPersianDigits(page)}
+                </button>
+              ))}
+            </div>
+            
+            <button 
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+              className="p-2 hover:bg-gray-100 rounded-lg disabled:opacity-20 transition-colors"
+            >
+              <Icons.ChevronLeft />
+            </button>
+          </div>
+
+          <div className="text-left">
+            <span className="text-xs text-gray-500 font-medium">
+              نمایش {toPersianDigits(startItem)} تا {toPersianDigits(endItem)} از کل {toPersianDigits(totalItems)} عضو
+            </span>
+          </div>
+
         </div>
       </div>
 
       <Modal 
         isOpen={activeModal !== null} 
         onClose={() => setActiveModal(null)} 
-        modalId={activeModal || ''} 
+        modalId={activeModal || 'memberForm'} 
         data={selectedMember} 
-        onAction={
-          activeModal === 'deactivate' 
-            ? (member: Member) => handleDeactivate(member?.id || 0)
-            : activeModal === 'memberForm'
-            ? (member: Member) => handleAddMember(member)
-            : undefined
-        }
       />
     </div>
   );
