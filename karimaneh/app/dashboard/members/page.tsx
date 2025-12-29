@@ -4,7 +4,7 @@ import Modal from "@/components/Modal";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import DashboardBreadcrumb from "@/components/Breadcrumbs";
 import Switcher7 from "@/components/ui/Switcher7";
-import { toPersianDigits } from "@/utils/persianNumbers";
+import { toPersianDigits } from "@/lib/formatters";
 
 
 const formatNumber = (numStr: string) => {
