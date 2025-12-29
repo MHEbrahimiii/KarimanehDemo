@@ -4,7 +4,6 @@ import { SidebarProvider, SidebarHeader, SidebarLink, SidebarLogoutButton } from
 import Image from "next/image";
 import {
   IconHome,
-  IconUsers,
   IconCreditCard,
   IconClock,
   IconArrowsExchange,
@@ -15,7 +14,6 @@ import {
 
 const links = [
   { label: "پیشخوان", href: "/dashboard", icon: <IconHome className="text-white h-5 w-5" /> },
-  { label: "اعضا", href: "/dashboard/members", icon: <IconUsers className="text-white h-5 w-5" /> },
   { label: "وام", href: "/dashboard/loans ", icon: <IconCreditCard className="text-white h-5 w-5" /> },
   { label: "معوقات", href: "/dashboard/arrears", icon: <IconClock className="text-white h-5 w-5" /> },
   { label: "تراکنش", href: "/dashboard/transactions", icon: <IconArrowsExchange className="text-white h-5 w-5" /> },
