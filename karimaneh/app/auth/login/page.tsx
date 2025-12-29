@@ -1,17 +1,17 @@
 "use client";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { mockLogin } from "@/services/api";
+import { LoginSchema, PERSIAN_REGEX } from "@/lib/schemas";
 
-const loginSchema = Yup.object().shape({
-  username: Yup.string().required("نام کاربری الزامی است"),
-  password: Yup.string().required("رمز عبور الزامی است"),
-});
+const removePersianChars = (value: string) => {
+  return value.replace(PERSIAN_REGEX, "");
+};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,8 +32,8 @@ export default function LoginPage() {
             </h1>
             <Formik
               initialValues={{ username: "", password: "" }}
-              validationSchema={loginSchema}
-              onSubmit={async (values: { username: string; password: string }) => {
+              validationSchema={toFormikValidationSchema(LoginSchema)}
+              onSubmit={async (values) => {
                 setError("");
                 setLoading(true);
                 try {
@@ -42,11 +42,11 @@ export default function LoginPage() {
                     `/auth/verify?user=${encodeURIComponent(values.username)}`
                   );
                 } catch (err) {
-                  const message =
+                  setError(
                     err instanceof Error
                       ? err.message
-                      : "ارسال کد با مشکل مواجه شد. دوباره تلاش کنید.";
-                  setError(message);
+                      : "ارسال کد با مشکل مواجه شد. دوباره تلاش کنید."
+                  );
                 } finally {
                   setLoading(false);
                 }
@@ -58,8 +58,15 @@ export default function LoginPage() {
                     <Field
                       name="username"
                       type="text"
-                      placeholder="نام کاربری"
+                      placeholder="نام کاربری (فقط انگلیسی)"
                       autoComplete="username"
+                      onInput={(e: any) => {
+                        const value = e.target.value;
+                        const englishOnly = removePersianChars(value);
+                        if (value !== englishOnly) {
+                          e.target.value = englishOnly;
+                        }
+                      }}
                       className={`w-full px-4 py-3 border rounded-lg bg-neutral-white placeholder-gray-70 focus:outline-none transition ${
                         errors.username && touched.username
                           ? "border-red-60"
@@ -76,8 +83,15 @@ export default function LoginPage() {
                     <Field
                       name="password"
                       type={showPassword ? "text" : "password"}
-                      placeholder="رمز عبور"
+                      placeholder="رمز عبور (حداقل 7 کاراکتر - فقط انگلیسی)"
                       autoComplete="current-password"
+                      onInput={(e: any) => {
+                        const value = e.target.value;
+                        const englishOnly = removePersianChars(value);
+                        if (value !== englishOnly) {
+                          e.target.value = englishOnly;
+                        }
+                      }}
                       className={`w-full px-4 py-3 pr-12 border rounded-lg bg-neutral-white placeholder-gray-70 focus:outline-none transition ${
                         errors.password && touched.password
                           ? "border-red-60"

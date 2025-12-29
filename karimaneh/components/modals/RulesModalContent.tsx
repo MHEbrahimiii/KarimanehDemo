@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { images } from '@/utils/images';
-import { toPersianDigits } from '@/utils/persianNumbers';
+import { images } from '@/lib/images';
+import { toPersianDigits } from '@/lib/formatters';
 
 export default function RulesModalContent() {
   const rules = [

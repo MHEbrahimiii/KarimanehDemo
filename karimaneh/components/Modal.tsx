@@ -5,6 +5,7 @@ import DeactivateMemberContent from '@/components/modals/deactiveModalContent';
 import AccountsModalContent from '@/components/modals/AccountsModalContent';
 import AboutModalContent from '@/components/modals/AboutModalContent';
 import RulesModalContent from '@/components/modals/RulesModalContent';
+import LoanDetailsModalContent from '@/components/modals/LoanDetailsModalContent';
 import { ComponentType } from 'react';
 
 interface ModalProps {
@@ -22,6 +23,15 @@ const modalComponents: Record<string, ComponentType<any>> = {
   accounts: AccountsModalContent,
   about: AboutModalContent,
   rules: RulesModalContent,
+  loanDetails: LoanDetailsModalContent,
+};
+
+const STATELESS_MODALS = new Set(['accounts', 'about', 'rules']);
+
+const MODAL_MAX_WIDTH: Record<string, string> = {
+  memberForm: 'max-w-[900px]',
+  loanDetails: 'max-w-[900px]',
+  default: 'max-w-[450px]',
 };
 
 export default function Modal({ isOpen, onClose, modalId, data, onAction }: ModalProps) {
@@ -30,12 +40,12 @@ export default function Modal({ isOpen, onClose, modalId, data, onAction }: Moda
   const ContentComponent = modalComponents[modalId];
   if (!ContentComponent) return null;
 
-  
-  const maxWidth = modalId === 'memberForm' ? 'max-w-[900px]' : 'max-w-[450px]';
+  const isStateless = STATELESS_MODALS.has(modalId);
+  const maxWidth = MODAL_MAX_WIDTH[modalId] || MODAL_MAX_WIDTH.default;
 
   return (
     <div 
-      className="fixed inset-0 bg-neutral-black/55 backdrop-blur-md flex items-center justify-center p-4 z-[1500]" 
+      className="fixed inset-0 bg-black/55 backdrop-blur-md flex items-center justify-center p-4 z-[1500]" 
       onClick={onClose}
     >
       <div
@@ -50,13 +60,20 @@ export default function Modal({ isOpen, onClose, modalId, data, onAction }: Moda
           ×
         </button>
 
-        {modalId === 'accounts' || modalId === 'about' || modalId === 'rules' ? (
+        {isStateless ? (
           <ContentComponent />
+        ) : modalId === 'loanDetails' ? (
+          <ContentComponent 
+            data={data} 
+            onClose={onClose} 
+            onNext={() => onAction?.({ type: 'next', data })}
+            onReject={() => onAction?.({ type: 'reject', data })}
+          />
         ) : (
           <ContentComponent 
             data={data} 
             onClose={onClose} 
-            onConfirm={() => onAction && onAction(data)}
+            onConfirm={() => onAction?.(data)}
             onSubmit={onAction} 
           />
         )}

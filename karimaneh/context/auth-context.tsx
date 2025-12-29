@@ -2,11 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
-type User = {
-  name: string;
-  role: string;
-};
+import { UserSchema, type User, isAdmin } from "@/lib/schemas";
 
 type AuthContextType = {
   user: User | null;
@@ -16,24 +12,35 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+const STORAGE_KEY = "auth";
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const stored = localStorage.getItem("auth");
-    if (stored) setUser(JSON.parse(stored));
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return;
+
+    try {
+      const parsed = JSON.parse(stored);
+      const validated = UserSchema.parse(parsed);
+      setUser(validated);
+    } catch {
+      localStorage.removeItem(STORAGE_KEY);
+    }
   }, []);
 
-  const login = (user: User) => {
-    setUser(user);
-    localStorage.setItem("auth", JSON.stringify(user));
-    router.push("/dashboard");
+  const login = (userData: User) => {
+    const validated = UserSchema.parse(userData);
+    setUser(validated);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(validated));
+    router.push(isAdmin(validated.role) ? "/admin" : "/user");
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("auth");
+    localStorage.removeItem(STORAGE_KEY);
     router.push("/auth/login");
   };
 

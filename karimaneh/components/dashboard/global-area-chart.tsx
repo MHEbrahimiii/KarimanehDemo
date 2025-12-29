@@ -1,18 +1,18 @@
-import {
+﻿import {
   AreaChart,
   Area,
   ResponsiveContainer,
   XAxis,
+  YAxis,
 } from "recharts";
+import { toPersianDigits } from "@/lib/formatters";
 
-export default function GlobalAreaChart({ globalStats }: any) {
-  // داده‌ها
-  const data = globalStats.months.map((m: string, i: number) => ({
+export default function GlobalAreaChart({ paidLoans }: any) {
+  const data = paidLoans.months.map((m: string, i: number) => ({
     name: m,
-    value: globalStats.paid[i],
+    value: paidLoans.data[i],
   }));
 
-  // پالت رنگ (تیره → روشن)
   const COLORS = [
     "#2C1B6F",
     "#5B4BB7",
@@ -20,46 +20,78 @@ export default function GlobalAreaChart({ globalStats }: any) {
     "#E6DEFF",
   ];
 
+  const gradientId = "paidLoansGradient";
+  const numSegments = data.length;
+
+  const gradientStops = data.flatMap((_: any, i: number) => {
+    const startOffset = (i / numSegments) * 100;
+    const endOffset = ((i + 1) / numSegments) * 100;
+    
+    const colorIndex = Math.min(
+      Math.floor((i / Math.max(numSegments - 1, 1)) * (COLORS.length - 1)),
+      COLORS.length - 1
+    );
+    const color = COLORS[colorIndex];
+
+    return [
+      <stop
+        key={`start-${i}`}
+        offset={`${startOffset}%`}
+        stopColor={color}
+        stopOpacity={1}
+      />,
+      <stop
+        key={`end-${i}`}
+        offset={`${endOffset}%`}
+        stopColor={color}
+        stopOpacity={1}
+      />,
+    ];
+  });
+
+  const yAxisMax = 60;
+
   return (
-    <div className="bg-white p-4 rounded-xl border h-[320px]">
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data}>
-          <defs>
-            <linearGradient id="areaGradient" x1="0" y1="0" x2="1" y2="0">
-              {data.map((_, i) => {
-                const offset =
-                  data.length === 1
-                    ? "0%"
-                    : `${(i / (data.length - 1)) * 100}%`;
+    <ResponsiveContainer width="100%" height="100%">
+      <AreaChart data={data} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
+        <defs>
+          <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="0">
+            {gradientStops}
+          </linearGradient>
+        </defs>
 
-                const colorIndex = Math.min(
-                  Math.floor((i / data.length) * COLORS.length),
-                  COLORS.length - 1
-                );
+        <XAxis 
+          dataKey="name" 
+          tick={{ fontSize: 9, fill: "var(--gray-80)" }}
+          axisLine={false}
+          tickLine={false}
+          interval={0}
+          angle={-45}
+          textAnchor="end"
+          height={50}
+          
+        />
+        <YAxis 
+          tick={{ fontSize: 10, fill: "var(--gray-80)" }}
+          axisLine={false}
+          tickLine={false}
+          domain={[0, yAxisMax]}
+          ticks={[0, 10, 30, 40, 50]}
+          tickFormatter={(value) => toPersianDigits(value.toString())}
+          
+        />
 
-                return (
-                  <stop
-                    key={i}
-                    offset={offset}
-                    stopColor={COLORS[colorIndex]}
-                    stopOpacity={1}
-                  />
-                );
-              })}
-            </linearGradient>
-          </defs>
-
-          <XAxis dataKey="name" hide />
-
-          <Area
-            type="monotone"
-            dataKey="value"
-            stroke="#4C2FB6"
-            strokeWidth={2}
-            fill="url(#areaGradient)"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+        <Area
+          type="monotone"
+          dataKey="value"
+          stroke="var(--primary-80)"
+          strokeWidth={2}
+          fill={`url(#${gradientId})`}
+          dot={false}
+          activeDot={{ r: 4, fill: "var(--primary-80)" }}
+        />
+      </AreaChart>
+    </ResponsiveContainer>
   );
 }
+

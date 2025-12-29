@@ -1,5 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth-context";
+import { isAdmin } from "@/lib/schemas";
 import { SidebarProvider, SidebarHeader, SidebarLink, SidebarLogoutButton } from "@/components/sidebar/sidebar";
 import Image from "next/image";
 import {
@@ -13,18 +17,36 @@ import {
   IconSettings,
 } from "@tabler/icons-react";
 
-const links = [
-  { label: "پیشخوان", href: "/dashboard", icon: <IconHome className="text-white h-5 w-5" /> },
-  { label: "اعضا", href: "/dashboard/members", icon: <IconUsers className="text-white h-5 w-5" /> },
-  { label: "وام", href: "/dashboard/loans ", icon: <IconCreditCard className="text-white h-5 w-5" /> },
-  { label: "معوقات", href: "/dashboard/arrears", icon: <IconClock className="text-white h-5 w-5" /> },
-  { label: "تراکنش", href: "/dashboard/transactions", icon: <IconArrowsExchange className="text-white h-5 w-5" /> },
-  { label: "گزارش ها", href: "/dashboard/reports", icon: <IconHistory className="text-white h-5 w-5" /> },
-  { label: "پشتیبانی اعضا", href: "/dashboard/support", icon: <IconMessageCircle className="text-white h-5 w-5" /> },
-  { label: "تنظیمات", href: "/dashboard/settings", icon: <IconSettings className="text-white h-5 w-5" /> },
+const adminLinks = [
+  { label: "پیشخوان", href: "/admin", icon: <IconHome className="text-white h-5 w-5" /> },
+  { label: "اعضا", href: "/admin/members", icon: <IconUsers className="text-white h-5 w-5" /> },
+  { label: "وام", href: "/admin/loans", icon: <IconCreditCard className="text-white h-5 w-5" /> },
+  { label: "معوقات", href: "/admin/arrears", icon: <IconClock className="text-white h-5 w-5" /> },
+  { label: "تراکنش", href: "/admin/transactions", icon: <IconArrowsExchange className="text-white h-5 w-5" /> },
+  { label: "گزارش ها", href: "/admin/reports", icon: <IconHistory className="text-white h-5 w-5" /> },
+  { label: "پشتیبانی اعضا", href: "/admin/support", icon: <IconMessageCircle className="text-white h-5 w-5" /> },
+  { label: "تنظیمات", href: "/admin/settings", icon: <IconSettings className="text-white h-5 w-5" /> },
 ] as const;
 
-export default function DashboardLayout({ children }: any) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/auth/login");
+      return;
+    }
+
+    if (!isAdmin(user.role)) {
+      router.push("/user");
+    }
+  }, [user, router]);
+
+  if (!user || !isAdmin(user.role)) {
+    return null;
+  }
+
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full bg-[#F9F8F4]">
@@ -46,7 +68,7 @@ export default function DashboardLayout({ children }: any) {
               }
             />
             <div className="flex flex-col gap-1 mt-6">
-              {links.map((link, idx) => (
+              {adminLinks.map((link, idx) => (
                 <SidebarLink
                   key={idx}
                   href={link.href}
