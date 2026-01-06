@@ -19,8 +19,8 @@ const LoanDetailsModalContent: React.FC<LoanDetailsModalContentProps> = ({
   if (!data) return null;
 
   const steps = [
-    { label: 'مدیریت درخواست', active: false },
-    { label: 'جزییات وام', active: true },
+    { label: 'مدیریت درخواست', active: true },
+    { label: 'جزییات وام', active: false },
     { label: 'تایید پرداخت', active: false },
     { label: '', active: false },
   ];

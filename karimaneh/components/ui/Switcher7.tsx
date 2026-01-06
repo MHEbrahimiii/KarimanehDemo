@@ -16,8 +16,8 @@ export default function Switcher7({ checked, onChange }: Switcher7Props) {
           onChange={onChange}
           className="sr-only"
         />
-        <div className={`block h-8 w-14 rounded-full border border-[#BFCEFF] ${checked ? 'bg-primary/20' : 'bg-[#EAEEFB]'}`}></div>
-        <div className={`dot bg-primary absolute ${checked ? 'left-7' : 'left-1'} top-1 h-6 w-6 rounded-full transition-all`} />
+        <div className={`block h-8 w-14 rounded-full border border-gray-40 ${checked ? 'bg-green-30' : 'bg-red-300'}`}></div>
+        <div className={`dot bg-primary-110 absolute ${checked ? 'left-7' : 'left-1'} top-1 h-6 w-6 rounded-full transition-all`} />
       </div>
     </label>
   );
