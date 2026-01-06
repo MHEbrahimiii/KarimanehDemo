@@ -19,7 +19,7 @@ const LOAN_COLUMNS = [
 const getStatusColor = (status: Loan['status']) => {
   switch (status) {
     case 'pending':
-      return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+      return 'bg-yellow-100 text-black-800 border-yellow-300';
     case 'paid':
       return 'bg-green-50 text-green-700 border-green-200';
     case 'rejected':

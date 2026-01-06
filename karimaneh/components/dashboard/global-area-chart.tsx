@@ -1,4 +1,4 @@
-﻿import {
+import {
   AreaChart,
   Area,
   ResponsiveContainer,
@@ -53,7 +53,7 @@ export default function GlobalAreaChart({ paidLoans }: any) {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={data} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
+      <AreaChart data={data} >
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="0">
             {gradientStops}
@@ -69,16 +69,14 @@ export default function GlobalAreaChart({ paidLoans }: any) {
           angle={-45}
           textAnchor="end"
           height={50}
-          
         />
         <YAxis 
           tick={{ fontSize: 10, fill: "var(--gray-80)" }}
           axisLine={false}
           tickLine={false}
           domain={[0, yAxisMax]}
-          ticks={[0, 10, 30, 40, 50]}
+          ticks={[0, 10, 30, 35, 50]}
           tickFormatter={(value) => toPersianDigits(value.toString())}
-          
         />
 
         <Area
@@ -94,4 +92,3 @@ export default function GlobalAreaChart({ paidLoans }: any) {
     </ResponsiveContainer>
   );
 }
-
