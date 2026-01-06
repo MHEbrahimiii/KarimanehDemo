@@ -1,3 +1,4 @@
+import { Avatar } from "@mui/material";
 import { info, warn } from "console";
 import { Search } from "lucide-react";
 
@@ -15,5 +16,6 @@ export const images = {
   eye : '/images/eye.png',
   ActiveUser : '/images/ActiveUser.png',
   User : '/images/User.png',
+  Avatar : '/images/Avatar.png'
 };
 export type ImageKey = keyof typeof images;
