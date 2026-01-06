@@ -63,13 +63,13 @@ export default function MUIStatusChangeDialog({
         PaperProps={{
           sx: {
             borderRadius: 2,
-            fontFamily: 'vazir',
+            fontFamily: 'iranyekan',
           },
         }}
       >
         <DialogTitle
           sx={{
-            fontFamily: 'vazir',
+            fontFamily: 'iranyekan',
             fontWeight: 'bold',
             fontSize: '1.25rem',
             textAlign: 'right',
@@ -81,7 +81,7 @@ export default function MUIStatusChangeDialog({
 
         <DialogContent
           sx={{
-            fontFamily: 'vazir',
+            fontFamily: 'iranyekan',
             textAlign: 'right',
             direction: 'rtl',
             padding: '20px',
@@ -103,7 +103,7 @@ export default function MUIStatusChangeDialog({
             variant="contained"
             color={isActivating ? 'success' : 'error'}
             sx={{
-              fontFamily: 'vazir',
+              fontFamily: 'iranyekan',
               fontWeight: 'bold',
               minWidth: '100px',
             }}
@@ -124,7 +124,7 @@ export default function MUIStatusChangeDialog({
           severity={newStatus === 'active' ? 'success' : 'warning'}
           variant="filled"
           sx={{
-            fontFamily: 'vazir',
+            fontFamily: 'iranyekan',
             display: 'flex',
             alignItems: 'center',
             gap: 1,

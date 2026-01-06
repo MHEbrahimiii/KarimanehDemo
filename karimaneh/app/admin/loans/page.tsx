@@ -21,13 +21,13 @@ const getStatusColor = (status: Loan['status']) => {
     case 'pending':
       return 'bg-yellow-100 text-black-800 border-yellow-300';
     case 'paid':
-      return 'bg-green-50 text-green-700 border-green-200';
+      return 'bg-green-50 text-black-800  border-green-200';
     case 'rejected':
-      return 'bg-red-50 text-red-700 border-red-200';
+      return 'bg-red-50 text-black-800  border-red-200';
     case 'due':
-      return 'bg-orange-100 text-orange-800 border-orange-300';
+      return 'bg-orange-100 text-black-800  border-orange-300';
     default:
-      return 'bg-gray-100 text-gray-800 border-gray-300';
+      return 'bg-gray-100 text-black-800  border-gray-300';
   }
 };
 
