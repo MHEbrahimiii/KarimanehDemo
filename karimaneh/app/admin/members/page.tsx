@@ -5,17 +5,12 @@ import DashboardBreadcrumb from "@/components/Breadcrumbs";
 import Switcher7 from "@/components/ui/Switcher7";
 import MUIStatusChangeDialog from "@/components/modals/MUIStatusChangeDialog";
 import { toPersianDigits } from "@/lib/formatters";
-
-
-const formatNumber = (numStr: string) => {
-  return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
+import { formatNumber } from "@/lib/formatters";
 
 // --- ICONS ---
 const Icons = {
   Search: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
   Plus: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7v14"/></svg>,
-  Info: () => <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>,
   Eye: () => <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>,
   ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6"/></svg>,
   ChevronLeft: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6"/></svg>,
@@ -175,10 +170,7 @@ export default function MembersPage() {
                   </td>
                   <td className="p-4">
                     <div className="flex gap-4 items-center justify-center">
-                      <button onClick={() => openModal('viewMember', member)} className="hover:scale-110 transition-transform" title="جزئیات">
-                        <Icons.Info />
-                      </button>
-                      {member.status === 'inactive' && (
+                      {member.status   && (
                         <button onClick={() => openModal('viewMember', member)} className="hover:scale-110 transition-transform text-gray-600 hover:text-blue-600" title="بررسی جزئیات">
                           <Icons.Eye />
                         </button>

@@ -3,10 +3,7 @@ import React from 'react';
 import { toPersianDigits } from "@/lib/formatters";
 import Image from 'next/image';
 import { images } from '@/public/images/images';
-const formatNumber = (numStr: string) => {
-  return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-};
-
+import { formatNumber } from '@/lib/formatters';
 interface InfoModalContentProps {
   data?: {
     id: number;
@@ -15,6 +12,7 @@ interface InfoModalContentProps {
     fatherName?: string;
     receivedLoans: string;
     status: 'active' | 'inactive';
+    mobile?: string;
   } | null;
   onClose: () => void;
 }
@@ -23,85 +21,120 @@ export default function InfoModalContent({ data, onClose }: InfoModalContentProp
   if (!data) return null;
 
   const member = data;
-  const statusText = member.status === 'active' ? '. فعال' : '. غیرفعال';
-  const statusColor = member.status === 'active' ? 'text-green-700' : 'text-red-700';
+  const statusText = member.status === 'active' ? 'فعال' : 'غیرفعال';
+  const statusColor = member.status === 'active' ? 'text-green-500' : 'text-red-500';
+
+  const depositBalance = "100,000,000";
+  const fundDebt = "20,000,000";
 
   return (
-    <div className="w-full" dir="rtl">
-      <div className="relative bg-linear-to-r from-blue-50 to-blue-100 p-6 rounded-t-2xl">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-4">
-            <span className="text-gray-700 font-mono">{toPersianDigits(((member as any).mobile ?? '09123456789'))}</span>
-            <div className="w-px h-6 bg-gray-200" />
-            <div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-1">{member.fullName}</h3>
-              <div className={`inline-block px-3 py-1 rounded-full text-sm font-bold ${statusColor}`}>
-                {statusText}
+    <div className="w-full bg-[#f8f9fa] rounded-3xl overflow-hidden" dir="rtl">
+      <div className="relative p-6 pb-2" dir='ltr' >
+
+        <button onClick={onClose} className="absolute top-6 left-6 text-gray-800 hover:text-gray-600">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <div className="flex justify-between items-center mt-2">
+          <div className="flex items-center gap-4 w-full justify-end">
+            <div className="flex-1 text-left pl-12 sm:pl-0">
+                 <button className="px-4 py-1.5 border border-indigo-900 text-indigo-900 text-sm rounded-lg hover:bg-indigo-50 transition-colors font-medium">
+                  ویرایش
+                </button>
+            </div>
+
+            <div className="text-right flex flex-col items-end">
+              <h3 className="text-xl font-bold text-gray-900 mb-1">{member.fullName}</h3>
+              <span className="text-gray-400 text-xs mb-1">عضو صندوق</span>
+              <div className={`flex items-center text-sm font-bold ${statusColor}`}>
+                 <span className="text-xs ml-1">●</span> {statusText}
               </div>
             </div>
-          </div>
-          <div className="w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold ml-4 shrink-0">
-           <Image width={80} height={80} alt='آواتار' src={images.Avatar}></Image>
-          </div>
-        </div>
-      </div>
-      <div className="bg-white p-6 space-y-6">
-        <div className="grid grid-cols-3 gap-4">
-          <div className="border border-gray-200 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-500 mb-1">درخواست وام</p>
-            <p className="font-bold text-gray-700">-</p>
-          </div>
-          <div className="border border-gray-200 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-500 mb-1">وام های دریافتی</p>
-            <p className="font-bold text-gray-700">۱</p>
-          </div>
-          <div className="border border-gray-200 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-500 mb-1">موجودی حساب</p>
-            <p className="font-bold text-gray-700">{toPersianDigits(formatNumber(member.receivedLoans))}</p>
-          </div>
-        </div>
-        <div dir="rtl" className="space-y-3 border-t border-gray-200 pt-6">
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 text-sm">نام و نام خانوادگی:</span>
-            <span className="font-semibold text-gray-800">{member.fullName}</span>
-          </div>
-          {member.fatherName && (
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600 text-sm">نام پدر:</span>
-              <span className="font-semibold text-gray-800">{member.fatherName}</span>
+            
+            <div className="relative shrink-0">
+               <div className="w-20 h-20 rounded-full p-1 border-2 border-pink-200">
+                  <Image 
+                    className="rounded-full object-cover" 
+                    width={80} 
+                    height={80} 
+                    alt='آواتار' 
+                    src={images.Avatar}
+                  />
+               </div>
             </div>
-          )}
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 text-sm">کد ملی:</span>
-            <span className="font-semibold text-gray-800 font-mono">{toPersianDigits(member.nationalCode)}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 text-sm">شماره موبایل:</span>
-            <span className="font-semibold text-gray-800 font-mono">{toPersianDigits(((member as any).mobile ?? '09123456789'))}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 text-sm">شماره حساب:</span>
-            <span className="font-semibold text-gray-800 font-mono">۰۱۲۳۴۵۶۷۸۹</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 text-sm">شماره شبا:</span>
-            <span className="font-semibold text-gray-800 font-mono text-xs">IR-FiolY########P#F#YI##</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 text-sm">کد پستی:</span>
-            <span className="font-semibold text-gray-800 font-mono">۹۸۷۰-۹۹۱۷-۲۱۲۲-۹۹۹۹</span>
           </div>
         </div>
       </div>
-      <div className="bg-gray-50 p-6 rounded-b-2xl flex gap-3">
+
+
+      <div className="bg-[#f3f4f6] mx-6 rounded-xl py-4 mt-4">
+        <div className="flex justify-between items-center text-center divide-x divide-x-reverse divide-gray-300">
+          
+          <div className="flex-1 px-2">
+            <p className="text-xs text-gray-500 font-bold mb-2">موجودی سپرده</p>
+            <p className="font-bold text-gray-600 text-sm">
+              {toPersianDigits(depositBalance)} <span className="text-[10px] font-light">ریال</span>
+            </p>
+          </div>
+          <div className="flex-1 px-2">
+            <p className="text-xs text-gray-500 font-bold mb-2">مجموع وام های دریافتی</p>
+            <p className="font-bold text-gray-600 text-sm">
+              {toPersianDigits(formatNumber(member.receivedLoans || "1000000000"))} <span className="text-[10px] font-light">ریال</span>
+            </p>
+          </div>
+          <div className="flex-1 px-2">
+            <p className="text-xs text-gray-500 font-bold mb-2">بدهی به صندوق</p>
+            <p className="font-bold text-gray-600 text-sm">
+              {toPersianDigits(fundDebt)} <span className="text-[10px] font-light">ریال</span>
+            </p>
+          </div>
+
+        </div>
+      </div>
+      <div className="w-full h-px bg-gray-200 my-6"></div>
+      <div className="px-6 space-y-5 text-sm">
+        <div className="flex justify-between items-center">
+          <span className="text-gray-500 font-bold">نام و نام خانوادگی:</span>
+          <span className="text-gray-700">{member.fullName}</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-gray-500 font-bold">کد ملی:</span>
+          <span className="text-gray-700 font-mono text-lg">{toPersianDigits(member.nationalCode)}</span>
+        </div>
+
+        <div className="flex justify-between items-center">
+          <span className="text-gray-500 font-bold">شماره موبایل:</span>
+          <span className="text-gray-700 font-mono text-lg tracking-wider">{toPersianDigits(member.mobile ?? '09123456789')}</span>
+        </div>
+      </div>
+      <div className="w-full h-px bg-gray-200 my-6"></div>
+      <div className="px-6 space-y-5 text-sm mb-8">
+        <div className="flex justify-between items-center">
+          <span className="text-gray-500 font-bold">شماره حساب:</span>
+          <span className="text-gray-700 font-mono text-lg tracking-wider">{toPersianDigits('0030220318574869')}</span>
+        </div>
+        
+        <div className="flex justify-between items-center">
+          <span className="text-gray-500 font-bold">شماره شبا:</span>
+          <span className="text-gray-700 font-mono text-sm">{toPersianDigits('IR-410170000003048241701')}</span>
+        </div>
+
+        <div className="flex justify-between items-center">
+          <span className="text-gray-500 font-bold">شماره کارت:</span>
+          <span className="text-gray-700 font-mono text-lg tracking-wider">{toPersianDigits('6037-9917-2122-2323')}</span>
+        </div>
+      </div>
+      <div className="p-6 pt-0 flex gap-4">
+        <button className="flex-1 py-4 bg-[#241c5c] text-white font-bold rounded-xl hover:bg-[#1a1445] transition-colors text-lg shadow-lg shadow-indigo-900/20">
+          ویرایش
+        </button>
         <button
           onClick={onClose}
-          className="flex-1 px-4 py-3 border-2 border-gray-800 text-gray-800 font-bold rounded-lg hover:bg-gray-100 transition-colors"
+          className="flex-1 py-4 bg-[#f3f4f6] text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors text-lg"
         >
           بازگشت
-        </button>
-        <button className="flex-1 px-4 py-3 bg-gray-800 text-white font-bold rounded-lg hover:bg-gray-900 transition-colors">
-          ویرایش
         </button>
       </div>
     </div>

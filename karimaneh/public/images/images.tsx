@@ -16,6 +16,11 @@ export const images = {
   eye : '/images/eye.png',
   ActiveUser : '/images/ActiveUser.png',
   User : '/images/User.png',
-  Avatar : '/images/Avatar.png'
+  Avatar : '/images/Avatar.png',
+  Timer : '/images/Timer.png',
+  Timer2 : '/images/Timer2.png',
+  calender : '/images/calender.png',
+  info2 : '/images/info2.png',
+  Note : '/images/Note.png',
 };
 export type ImageKey = keyof typeof images;
