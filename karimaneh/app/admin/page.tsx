@@ -16,23 +16,10 @@ import {
   CartesianGrid,
 } from "recharts";
 import { IconCreditCard, IconUsers, IconWallet, IconClock, IconTicket, IconBell } from "@tabler/icons-react";
-import { toPersianDigits } from "@/lib/formatters";
+import {toShamsiDate} from "@/lib/formatters";
 import GlobalAreaChart from "@/components/dashboard/global-area-chart";
 import BalanceLineChart from "@/components/dashboard/balance-line-chart";
 
-const getPersianDate = () => {
-  const now = new Date();
-  const weekdays = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
-  const dayOfWeek = weekdays[now.getDay()];
-  
-
-  const day = now.getDate();
-  const monthNames = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
-
-  const month = monthNames[now.getMonth()];
-  
-  return `${dayOfWeek} - ${toPersianDigits(day)} ${month}`;
-};
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -70,7 +57,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="flex-1 text-left">
-          <p className="text-sm text-gray-700 font-medium">{getPersianDate()}</p>
+          <p className="text-sm text-gray-700 font-medium">{toShamsiDate(new Date())}</p>
         </div>
         <button className="px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
           <IconBell className="w-5 h-5" />
