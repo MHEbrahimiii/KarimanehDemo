@@ -33,16 +33,16 @@ interface Member {
 
 export default function MembersPage() {
   const [members, setMembers] = useState<Member[]>([
-    { id: 1, fullName: "رضا زاهدی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "علی", receivedLoans: "۷۲۰۰۰۰۰", status: "active" },
-    { id: 2, fullName: "ایمان عباسی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "رضا", receivedLoans: "۵۱۰۰۰۰۰", status: "active" },
-    { id: 3, fullName: "کامران ساده", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "حسن", receivedLoans: "۵۶۰۰۰۰۰", status: "inactive" },
-    { id: 4, fullName: "سینا زالی‌پور", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "اسماعیل", receivedLoans: "۷۹۰۰۰۰۰", status: "active" },
-    { id: 5, fullName: "علی اکبری", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ایلیا", receivedLoans: "۲۲۰۰۰۰۰", status: "active" },
-    { id: 6, fullName: "راشا نامدار", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "یاور", receivedLoans: "۳۲۰۰۰۰۰", status: "inactive" },
-    { id: 7, fullName: "محمد نبوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "مرتضی", receivedLoans: "۴۵۰۰۰۰۰", status: "active" },
-    { id: 8, fullName: "سعید کریمی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "جواد", receivedLoans: "۶۱۰۰۰۰۰", status: "active" },
-    { id: 9, fullName: "حمید علوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ناصر", receivedLoans: "۹۰۰۰۰۰۰", status: "inactive" },
-    { id: 10, fullName: "پویا مهدوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "قاسم", receivedLoans: "۳۴۰۰۰۰۰", status: "active" },
+    { id: 1, fullName: "رضا زاهدی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "علی", receivedLoans: "۷,۲۰۰,۰۰۰", status: "active" },
+    { id: 2, fullName: "ایمان عباسی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "رضا", receivedLoans: "۵,۱۰۰,۰۰۰", status: "active" },
+    { id: 3, fullName: "کامران ساده", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "حسن", receivedLoans: "۵,۶۰۰,۰۰۰", status: "inactive" },
+    { id: 4, fullName: "سینا زالی‌پور", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "اسماعیل", receivedLoans: "۷,۹۰۰,۰۰۰", status: "active" },
+    { id: 5, fullName: "علی اکبری", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ایلیا", receivedLoans: "۲,۲۰۰,۰۰۰", status: "active" },
+    { id: 6, fullName: "راشا نامدار", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "یاور", receivedLoans: "۳,۲۰۰,۰۰۰", status: "inactive" },
+    { id: 7, fullName: "محمد نبوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "مرتضی", receivedLoans: "۴,۵۰۰,۰۰۰", status: "active" },
+    { id: 8, fullName: "سعید کریمی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "جواد", receivedLoans: "۶,۱۰۰,۰۰۰", status: "active" },
+    { id: 9, fullName: "حمید علوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ناصر", receivedLoans: "۹,۰۰۰,۰۰۰", status: "inactive" },
+    { id: 10, fullName: "پویا مهدوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "قاسم", receivedLoans: "۳,۴۰۰,۰۰۰", status: "active" },
   ]);
 
   const [activeModal, setActiveModal] = useState<'viewMember' | 'memberForm' | null>(null);

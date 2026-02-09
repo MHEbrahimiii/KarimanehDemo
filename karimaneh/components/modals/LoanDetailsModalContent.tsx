@@ -1,6 +1,6 @@
 'use client';
-import React from 'react';
-import { Loan } from '@/mock/tables';
+import React, { useState } from 'react';
+import { Loan, tableData } from '@/mock/tables';
 import { toPersianDigits } from '@/lib/formatters';
 
 interface LoanDetailsModalContentProps {
@@ -17,6 +17,20 @@ const LoanDetailsModalContent: React.FC<LoanDetailsModalContentProps> = ({
   onReject 
 }) => {
   if (!data) return null;
+
+  const [openPreview, setOpenPreview] = useState<number | null>(null);
+
+  const findGuarantorDetails = (name: string) => {
+    const member = tableData.members.find((m) => m.fullName === name);
+    const loan = tableData.loans.find((l) => l.fullName === name);
+    return {
+      fullName: name,
+      phonenumber: member?.phonenumber || loan?.mobileNumber || 'نامشخص',
+      nationalCode: member?.nationalCode || loan?.nationalCode || '',
+      memberStatus: loan?.memberStatus || 'نامشخص',
+      debtAmount: loan?.debtAmount || '۰',
+    };
+  };
 
   const steps = [
     { label: 'مدیریت درخواست', active: true },
@@ -105,18 +119,34 @@ const LoanDetailsModalContent: React.FC<LoanDetailsModalContentProps> = ({
               <span className="text-sm text-gray-600">ضامنین: </span>
               <div className="mt-1 space-y-1">
                 {data.guarantors && data.guarantors.length > 0 ? (
-                  data.guarantors.map((guarantor, index) => (
-                    <div key={index}>
-                      <button
-                        className="text-sm text-blue-600 underline hover:text-blue-800 transition-colors"
-                        onClick={() => {
-                          console.log('View guarantor:', guarantor);
-                        }}
-                      >
-                        {guarantor}
-                      </button>
-                    </div>
-                  ))
+                  data.guarantors.map((guarantor, index) => {
+                    const details = findGuarantorDetails(guarantor);
+                    return (
+                      <div key={index} className="relative">
+                        <button
+                          className="text-sm text-blue-600 underline hover:text-blue-800 transition-colors"
+                          onMouseEnter={() => setOpenPreview(index)}
+                          onMouseLeave={() => setOpenPreview((prev) => (prev === index ? null : prev))}
+                          onClick={() => setOpenPreview((prev) => (prev === index ? null : index))}
+                          aria-haspopup="true"
+                          aria-expanded={openPreview === index}
+                        >
+                          {guarantor}
+                        </button>
+
+                        {openPreview === index && (
+                          <div className="absolute z-30 right-0 mt-2 w-64 bg-white rounded-lg shadow-lg p-4 text-right" role="dialog">
+                            <div className="text-xs text-gray-500 mb-1">کدملی: <span className="font-medium text-foreground">{details.nationalCode}</span></div>
+                            <div className={`text-sm mb-1 ${details.memberStatus === 'بدون بدهی' ? 'text-green-600' : 'text-red-600'}`}>
+                              وضعیت: <span className="font-medium">{details.memberStatus}</span>
+                            </div>
+                            <div className="text-sm text-foreground font-medium">مبلغ بدهی: {details.debtAmount} ریال</div>
+                            <div className="absolute left-1/2 transform -translate-x-1/2 -top-2 w-3 h-3 bg-white rotate-45 shadow-sm" />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
                 ) : (
                   <span className="text-sm text-gray-500">ضامنی ثبت نشده</span>
                 )}
