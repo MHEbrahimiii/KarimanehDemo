@@ -101,10 +101,10 @@ export default function MembersPage() {
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
-    <div className="p-6 bg-[#f8f9fa] min-h-screen text-right font-iranyekan" dir="rtl">
+  <div className="p-6 bg-background min-h-screen text-right font-iranyekan" dir="rtl">
       <DashboardBreadcrumb current="اعضا" />
 
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-card rounded-xl shadow-sm border border-border p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div className="relative w-full md:w-80">
             <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
@@ -140,24 +140,24 @@ export default function MembersPage() {
             اعضای فعال
           </button>
         </div>
-        <div className="overflow-x-auto rounded-lg">
+        <div className="overflow-x-auto rounded-lg border border-border">
           <table className="w-full text-sm text-right">
             <thead>
               <tr className="bg-muted border-b border-border">
-                <th className="p-4 w-12 text-center text-gray-500 font-bold">#</th>
+                <th className="p-4 w-12 text-center text-muted-foreground font-bold">#</th>
                 <th className="p-4 w-12 text-center"><input type="checkbox" className="rounded border-gray-300" /></th>
-                <th className="p-4 text-gray-500 font-bold">نام و نام خانوادگی</th>
-                <th className="p-4 text-gray-500 font-bold">کد ملی</th>
-                <th className="p-4 text-gray-500 font-bold">نام پدر</th>
-                <th className="p-4 text-gray-500 font-bold">موجودی</th>
-                <th className="p-4 text-gray-500 font-bold text-center">وضعیت</th>
-                <th className="p-4 text-gray-500 font-bold text-center">عملیات</th>
+                <th className="p-4 text-muted-foreground font-bold">نام و نام خانوادگی</th>
+                <th className="p-4 text-muted-foreground font-bold">کد ملی</th>
+                <th className="p-4 text-muted-foreground font-bold">نام پدر</th>
+                <th className="p-4 text-muted-foreground font-bold">موجودی</th>
+                <th className="p-4 text-muted-foreground font-bold text-center">وضعیت</th>
+                <th className="p-4 text-muted-foreground font-bold text-center">عملیات</th>
               </tr>
             </thead>
             <tbody>
               {paginatedMembers.map((member, index) => (
-                <tr key={member.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="p-4 text-gray-400 text-center font-bold">
+                <tr key={member.id} className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors">
+                  <td className="p-4 text-muted-foreground text-center font-bold">
                     {toPersianDigits((currentPage - 1) * itemsPerPage + index + 1)}
                   </td>
                   <td className="p-4 text-center"><input type="checkbox" className="rounded border-gray-300" /></td>
