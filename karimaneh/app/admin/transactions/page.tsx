@@ -1,9 +1,10 @@
+"use client";
 import React from 'react'
-import DashboardBreadcrumb from "@/components/Breadcrumbs";
+import UserHeader from "@/components/UserHeader";
 function page() {
   return (
-    <div>
-        <DashboardBreadcrumb current='تراکنش‌ها'/>
+    <div className="p-6 min-h-screen text-right font-[vazir]" dir="rtl">
+      <UserHeader />
     </div>
   )
 }

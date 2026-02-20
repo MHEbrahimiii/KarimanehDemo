@@ -1,20 +1,20 @@
 "use client";
 import React, { useState, useMemo } from "react";
 import Modal from "@/components/Modal";
-import DashboardBreadcrumb from "@/components/Breadcrumbs";
+import UserHeader from "@/components/UserHeader";
 import { toPersianDigits } from "@/lib/formatters";
 import { images } from "@/public/images/images";
-import { tableData, Arrear } from "@/mock/tables"; 
+import { tableData, Arrear } from "@/mock/tables";
 import { IconSearch } from "@tabler/icons-react";
 // import tables from "@/mock/tables"
 import { formatNumber } from "@/lib/formatters";
 // Using shared Modal component to render the send-message modal (registered as 'arrearsMSG')
 
 const Icons = {
-  Search: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
-  Info: () => <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>,
-  ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6"/></svg>,
-  ChevronLeft: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6"/></svg>,
+  Search: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>,
+  Info: () => <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>,
+  ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6" /></svg>,
+  ChevronLeft: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6" /></svg>,
 };
 
 export default function ArrearsPage() {
@@ -44,7 +44,7 @@ export default function ArrearsPage() {
   const filteredArrears = useMemo(() => {
     return arrearsList.filter((item) => {
       const matchesSearch = item.fullName.includes(searchTerm) || item.nationalCode.includes(searchTerm);
-      
+
       let matchesTab = true;
       if (currentTab === 'loan') matchesTab = item.installmentCount > 0;
       if (currentTab === 'subscription') matchesTab = item.subscriptionCount > 0;
@@ -62,8 +62,8 @@ export default function ArrearsPage() {
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
-  <div className="p-6 bg-background min-h-screen text-right font-iranyekan" dir="rtl">
-      <DashboardBreadcrumb current="معوقات" />
+    <div className="p-6 bg-background min-h-screen text-right font-iranyekan" dir="rtl">
+      <UserHeader />
       <div className="bg-card rounded-xl shadow-sm border border-border p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div className="relative w-full md:w-80">
@@ -96,7 +96,7 @@ export default function ArrearsPage() {
             className={`px-6 py-3 text-sm flex items-center gap-2 transition-all ${currentTab === 'subscription' ? 'border-b-2 border-blue-600 text-blue-600 font-bold' : 'text-gray-500'}`}
             onClick={() => { setCurrentTab('subscription'); setCurrentPage(1); }}
           >
-            <img src={images.calender } alt="" className="w-4 h-4" /> حق اشتراک‌های معوق
+            <img src={images.calender} alt="" className="w-4 h-4" /> حق اشتراک‌های معوق
           </button>
         </div>
         <div className="overflow-x-auto rounded-lg border border-border">
@@ -111,7 +111,7 @@ export default function ArrearsPage() {
                 {currentTab === 'loan' && <th className="p-4 text-muted-foreground font-bold text-center">تاریخ سر رسید</th>}
                 <th className="p-4 text-muted-foreground font-bold text-center">تعداد اقساط معوق</th>
                 <th className="p-4 text-muted-foreground font-bold text-center">عملیات</th>
-              </tr> 
+              </tr>
             </thead>
             <tbody>
               {paginatedData.map((item, index) => (
@@ -138,19 +138,19 @@ export default function ArrearsPage() {
                     {toPersianDigits(item.installmentCount)}
                   </td>
                   <td className="p-4 text-center max-w-xs flex items-center justify-center gap-4">
-                    <button 
-                      onClick={() => openModal(item)} 
+                    <button
+                      onClick={() => openModal(item)}
                       className="hover:scale-110 transition-transform inline-block"
                       title="مشاهده جزئیات"
                     >
-                     <img src={images.info2} alt="جزئیات" className="w-5 h-5" />
+                      <img src={images.info2} alt="جزئیات" className="w-5 h-5" />
                     </button>
-                    <button 
-                      onClick={() => openNoteModal(item)} 
+                    <button
+                      onClick={() => openNoteModal(item)}
                       className="hover:scale-110 transition-transform inline-block"
                       title="ارسال پیام"
                     >
-                     <img src={images.Note} alt="ارسال پیام" className="w-5 h-5" />
+                      <img src={images.Note} alt="ارسال پیام" className="w-5 h-5" />
                     </button>
                   </td>
                 </tr>
@@ -163,31 +163,30 @@ export default function ArrearsPage() {
           <div className="text-right">
             <span className="text-[12px] text-gray-500 font-bold">مبالغ به ریال است</span>
           </div>
-          
+
           <div className="flex items-center justify-center gap-2">
-            <button 
+            <button
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
               className="p-2 hover:bg-gray-100 rounded-lg disabled:opacity-20 transition-colors"
             >
               <Icons.ChevronRight />
             </button>
-            
+
             <div className="flex items-center gap-1">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all text-sm font-bold ${
-                    currentPage === page ? 'bg-blue-600 text-white shadow-md' : 'hover:bg-gray-100 text-gray-500'
-                  }`}
+                  className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all text-sm font-bold ${currentPage === page ? 'bg-blue-600 text-white shadow-md' : 'hover:bg-gray-100 text-gray-500'
+                    }`}
                 >
                   {toPersianDigits(page)}
                 </button>
               ))}
             </div>
-            
-            <button 
+
+            <button
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}
               className="p-2 hover:bg-gray-100 rounded-lg disabled:opacity-20 transition-colors"
@@ -202,11 +201,11 @@ export default function ArrearsPage() {
         </div>
       </div>
 
-      <Modal 
-        isOpen={activeModal !== null} 
-        onClose={() => setActiveModal(null)} 
-        modalId="viewMember" 
-        data={selectedArrear} 
+      <Modal
+        isOpen={activeModal !== null}
+        onClose={() => setActiveModal(null)}
+        modalId="viewMember"
+        data={selectedArrear}
       />
 
       <Modal

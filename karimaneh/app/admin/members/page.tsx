@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useMemo } from "react";
 import Modal from "@/components/Modal";
-import DashboardBreadcrumb from "@/components/Breadcrumbs";
+import UserHeader from "@/components/UserHeader";
 import Switcher7 from "@/components/ui/Switcher7";
 import MUIStatusChangeDialog from "@/components/modals/MUIStatusChangeDialog";
 import { toPersianDigits } from "@/lib/formatters";
@@ -9,12 +9,12 @@ import { formatNumber } from "@/lib/formatters";
 
 // --- ICONS ---
 const Icons = {
-  Search: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
-  Plus: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7v14"/></svg>,
-  Eye: () => <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>,
-  ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6"/></svg>,
-  ChevronLeft: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6"/></svg>,
-  Users: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+  Search: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>,
+  Plus: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7v14" /></svg>,
+  Eye: () => <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></svg>,
+  ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6" /></svg>,
+  ChevronLeft: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6" /></svg>,
+  Users: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /></svg>
 };
 
 interface Member {
@@ -66,20 +66,20 @@ export default function MembersPage() {
 
     const member = members.find(m => m.id === dialogMemberId);
     if (!member) return;
-    
+
     const newStatus = member.status === 'active' ? 'inactive' : 'active';
-    
+
     setPreviousStatus(member.status);
     setLastChangedMemberId(dialogMemberId);
-    
-    setMembers(prev => prev.map(m => 
+
+    setMembers(prev => prev.map(m =>
       m.id === dialogMemberId ? { ...m, status: newStatus } : m
     ));
   };
 
   const handleCancelStatusChange = () => {
     if (lastChangedMemberId !== null && previousStatus !== null) {
-      setMembers(prev => prev.map(m => 
+      setMembers(prev => prev.map(m =>
         m.id === lastChangedMemberId ? { ...m, status: previousStatus } : m
       ));
     }
@@ -101,8 +101,8 @@ export default function MembersPage() {
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
-  <div className="p-6 bg-background min-h-screen text-right font-iranyekan" dir="rtl">
-      <DashboardBreadcrumb current="اعضا" />
+    <div className="p-6 bg-background min-h-screen text-right font-iranyekan" dir="rtl">
+      <UserHeader />
 
       <div className="bg-card rounded-xl shadow-sm border border-border p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -118,8 +118,8 @@ export default function MembersPage() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <button 
-            onClick={() => openModal('memberForm')} 
+          <button
+            onClick={() => openModal('memberForm')}
             className="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm shadow-md hover:bg-blue-700 transition-colors"
           >
             <Icons.Plus /> عضو جدید
@@ -170,7 +170,7 @@ export default function MembersPage() {
                   </td>
                   <td className="p-4">
                     <div className="flex gap-4 items-center justify-center">
-                      {member.status   && (
+                      {member.status && (
                         <button onClick={() => openModal('viewMember', member)} className="hover:scale-110 transition-transform text-gray-600 hover:text-blue-600" title="بررسی جزئیات">
                           <Icons.Eye />
                         </button>
@@ -183,7 +183,7 @@ export default function MembersPage() {
           </table>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-4 mt-8 pt-4">
-          
+
           {/* Right: Currency Text */}
           <div className="text-right">
             <span className="text-[12px] text-gray-500 font-bold  px-3 py-1.5 rounded-full">
@@ -191,31 +191,30 @@ export default function MembersPage() {
             </span>
           </div>
           <div className="flex items-center justify-center gap-2">
-            <button 
+            <button
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
               className="p-2 hover:bg-gray-100 rounded-lg disabled:opacity-20 transition-colors"
             >
               <Icons.ChevronRight />
             </button>
-            
+
             <div className="flex items-center gap-1">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all text-sm font-bold ${
-                    currentPage === page 
-                      ? 'bg-blue-600 text-white shadow-md' 
+                  className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all text-sm font-bold ${currentPage === page
+                      ? 'bg-blue-600 text-white shadow-md'
                       : 'hover:bg-gray-100 text-gray-500'
-                  }`}
+                    }`}
                 >
                   {toPersianDigits(page)}
                 </button>
               ))}
             </div>
-            
-            <button 
+
+            <button
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}
               className="p-2 hover:bg-gray-100 rounded-lg disabled:opacity-20 transition-colors"
@@ -233,11 +232,11 @@ export default function MembersPage() {
         </div>
       </div>
 
-      <Modal 
-        isOpen={activeModal !== null} 
-        onClose={() => setActiveModal(null)} 
-        modalId={activeModal || 'memberForm'} 
-        data={selectedMember} 
+      <Modal
+        isOpen={activeModal !== null}
+        onClose={() => setActiveModal(null)}
+        modalId={activeModal || 'memberForm'}
+        data={selectedMember}
       />
 
       {dialogMemberId !== null && members.find(m => m.id === dialogMemberId) && (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import DashboardBreadcrumb from "@/components/Breadcrumbs";
+import UserHeader from "@/components/UserHeader";
 
 const formatWithCommas = (value: string) =>
   value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -119,7 +119,7 @@ export default function AdminSettingsPage() {
 
   return (
     <div className="min-h-screen bg-background" dir="rtl">
-      <DashboardBreadcrumb current="تنظیمات" />
+      <UserHeader />
       <div className="mx-5 mb-8">
         <div className="bg-card rounded-2xl shadow-sm border border-border p-8 ">
           <h1 className="text-xl font-bold text-neutral-90 mb-8">تنظیمات</h1>

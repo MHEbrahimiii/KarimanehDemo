@@ -7,7 +7,20 @@ export interface Member {
   phonenumber: string;
   status: 'active' | 'inactive';
 }
-
+export type MonthlyBalance ={
+  month: string;
+  amount: number;
+}
+export type LoanStatus = {
+  name : string;
+  color: string;
+  value: number;
+}
+export type PaymentStatus = {
+  name : string;
+  value : number;
+  color : string;
+}
 export interface Loan {
   id: number;
   fullName: string;
@@ -106,3 +119,28 @@ export const tableData = {
   ] as Arrear[],
 };
 
+export const monthlyBalanceData: MonthlyBalance[] = [
+  { month: "فروردین", amount: 32000 },
+  { month: "اردیبهشت", amount: 36000 },
+  { month: "خرداد", amount: 18000 },
+  { month: "تیر", amount: 22000 },
+  { month: "مرداد", amount: 45000 },
+  { month: "شهریور", amount: 42000 },
+  { month: "مهر", amount: 25000 },
+  { month: "آبان", amount: 27000 },
+  { month: "آذر", amount: 39000 },
+  { month: "دی", amount: 43000 },
+  { month: "بهمن", amount: 37000 },
+  { month: "اسفند", amount: 31000 },
+]
+
+export const loansStatusData: LoanStatus[] = [
+  { name: "وام های تایید شده", value: 40, color: "#1E0E62" },
+  { name: "در انتظار بررسی", value: 35, color: "#F4B740" },
+  { name: "رد شده", value: 25, color: "#7B61FF" },
+]
+
+export const paymentsStatusData: PaymentStatus[] = [
+  { name: "حق اشتراک", value: 40, color: "#F4B740" },
+  { name: "اقساط", value: 60, color: "#7B61FF" },
+]

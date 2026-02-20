@@ -11,6 +11,22 @@ export function toPersianDigits(str: string | number): string {
   return result;
 }
 
+export const formatToK = (value: number) => {
+  if (value >= 1000) {
+    const formatted = value / 1000
+    return `${formatted}K`
+  }
+  return value.toString()
+}
+
+ export const formatYAxis = (value: number) => {
+  if (value >= 1000) {
+    const formatted = value / 1000
+    return toPersianDigits(`${formatted}K`)
+  }
+  return toPersianDigits(value)
+}
+
 
 export function toEnglishDigits(str: string): string {
   const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];

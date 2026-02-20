@@ -1,6 +1,6 @@
 "use client";
 import { toPersianDigits } from "@/lib/formatters";
-import DashboardBreadcrumb from "@/components/Breadcrumbs";
+import UserHeader from "@/components/UserHeader";
 import { IconChevronRight, IconChevronLeft, IconSearch, IconArrowsSort, IconEye } from "@tabler/icons-react";
 import { useState } from "react";
 import { tableData, Loan } from "@/mock/tables";
@@ -55,11 +55,11 @@ export default function LoansPage() {
   const itemsPerPage = 8;
 
   const filteredLoans = loans.filter((loan) => {
-    const matchesSearch = 
-      loan.fullName.includes(searchTerm) || 
+    const matchesSearch =
+      loan.fullName.includes(searchTerm) ||
       loan.nationalCode.includes(searchTerm) ||
       loan.loanSubject.includes(searchTerm);
-    
+
     return matchesSearch;
   });
 
@@ -68,7 +68,7 @@ export default function LoansPage() {
 
   return (
     <div className="p-6 bg-background min-h-screen text-right" dir="rtl">
-      <DashboardBreadcrumb current="وام" />
+      <UserHeader />
 
       <div className="bg-card rounded-xl shadow-sm border border-border p-6 mt-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -106,8 +106,8 @@ export default function LoansPage() {
             </thead>
             <tbody>
               {paginatedLoans.map((loan, index) => (
-                <tr 
-                  key={loan.id} 
+                <tr
+                  key={loan.id}
                   className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
                 >
                   <td className="p-4 text-muted-foreground text-center">
@@ -116,13 +116,13 @@ export default function LoansPage() {
                   <td className="p-4 text-center">
                     <input type="checkbox" className="rounded border-input" />
                   </td>
-                  
+
                   {LOAN_COLUMNS.map((col) => (
                     <td key={col.accessor} className="p-4">
                       {col.accessor === 'actions' ? (
                         <div className="flex gap-3 items-center justify-center">
                           <div className="relative group">
-                            <button 
+                            <button
                               type="button"
                               className="p-2 hover:scale-110 transition-transform text-muted-foreground hover:text-foreground cursor-pointer rounded-md hover:bg-muted/50"
                               title="جزئیات"
@@ -151,8 +151,8 @@ export default function LoansPage() {
                         </span>
                       ) : (
                         <span className="font-medium text-foreground">
-                          {col.accessor === 'requestedAmount' 
-                            ? toPersianDigits(loan[col.accessor]) + " ریال" 
+                          {col.accessor === 'requestedAmount'
+                            ? toPersianDigits(loan[col.accessor]) + " ریال"
                             : loan[col.accessor as keyof Loan]}
                         </span>
                       )}
@@ -181,11 +181,10 @@ export default function LoansPage() {
                   <button
                     key={pageNum}
                     onClick={() => setCurrentPage(pageNum)}
-                    className={`px-4 py-2 border border-border rounded-lg ${
-                      currentPage === pageNum 
-                        ? 'bg-primary-80 text-white' 
+                    className={`px-4 py-2 border border-border rounded-lg ${currentPage === pageNum
+                        ? 'bg-primary-80 text-white'
                         : 'hover:bg-muted'
-                    }`}
+                      }`}
                   >
                     {toPersianDigits(String(pageNum))}
                   </button>
@@ -204,13 +203,13 @@ export default function LoansPage() {
         )}
       </div>
 
-      <Modal 
-        isOpen={activeModal === 'loanDetails'} 
+      <Modal
+        isOpen={activeModal === 'loanDetails'}
         onClose={() => {
           setActiveModal(null);
           setSelectedLoan(null);
-        }} 
-        modalId="loanDetails" 
+        }}
+        modalId="loanDetails"
         data={selectedLoan}
         onAction={(actionData: any) => {
           if (actionData?.type === 'next') {
