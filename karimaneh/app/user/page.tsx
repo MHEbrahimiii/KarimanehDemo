@@ -19,6 +19,7 @@ import { IconCreditCard, IconUsers, IconWallet, IconClock, IconTicket, IconBell 
 import { toPersianDigits } from "@/lib/formatters";
 import GlobalAreaChart from "@/components/dashboard/global-area-chart";
 import BalanceLineChart from "@/components/dashboard/balance-line-chart";
+import type { DashboardData } from "@/services/dashboard";
 
 const getPersianDate = () => {
   const now = new Date();
@@ -37,7 +38,7 @@ const getPersianDate = () => {
 export default function DashboardPage() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<DashboardData | null>(null);
 
   useEffect(() => {
     getDashboardMock().then((res) => {

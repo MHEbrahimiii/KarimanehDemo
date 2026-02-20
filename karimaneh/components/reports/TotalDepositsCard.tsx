@@ -3,20 +3,7 @@
 import React from 'react';
 import { toPersianDigits, formatNumber } from '@/lib/formatters';
 import { IconArrowUp, IconArrowDown } from '@tabler/icons-react';
-
-interface DepositData {
-    period: string;
-    subscription: number;
-    loanInstallment: number;
-    total: number;
-    trend: 'up' | 'down';
-}
-
-const depositData: DepositData[] = [
-    { period: 'ماهانه', subscription: 140000000, loanInstallment: 24000000, total: 38000000, trend: 'up' },
-    { period: 'شش ماهه', subscription: 400000000, loanInstallment: 200000000, total: 600000000, trend: 'down' },
-    { period: 'سالانه', subscription: 800000000, loanInstallment: 1500000000, total: 2300000000, trend: 'up' },
-];
+import { depositReportData } from '@/mock/reports';
 
 export default function TotalDepositsCard() {
     return (
@@ -39,7 +26,7 @@ export default function TotalDepositsCard() {
                         </tr>
                     </thead>
                     <tbody>
-                        {depositData.map((row, index) => (
+                        {depositReportData.map((row, index) => (
                             <tr
                                 key={index}
                                 className={`border-b last:border-0 bg-white `}
@@ -69,4 +56,5 @@ export default function TotalDepositsCard() {
         </div>
     );
 }
+
 

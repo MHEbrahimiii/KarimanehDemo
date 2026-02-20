@@ -27,15 +27,38 @@ function gregorianToShamsi(gYear: number, gMonth: number, gDay: number): [number
   return [shamsiYear, shamsiMonth, shamsiDay];
 }
 
-function shamsiToGregorian(shamsiYear: number, shamsiMonth: number, shamsiDay: number): [number, number, number] {
-  const gYear = shamsiYear + 621;
-  let gMonth = shamsiMonth + 3;
-  if (gMonth > 12) {
-    gMonth -= 12;
+type DateState = { year: number; month: number; day: number };
+
+const getInitialState = (value: string): {
+  selectedDate: DateState | null;
+  currentYear: number;
+  currentMonth: number;
+} => {
+  if (value) {
+    const parts = toEnglishDigits(value).split("/");
+    if (parts.length === 3) {
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10);
+      const day = parseInt(parts[2], 10);
+
+      if (!Number.isNaN(year) && !Number.isNaN(month) && !Number.isNaN(day)) {
+        return {
+          selectedDate: { year, month, day },
+          currentYear: year,
+          currentMonth: month,
+        };
+      }
+    }
   }
-  const gDay = shamsiDay;
-  return [gYear, gMonth, gDay];
-}
+
+  const now = new Date();
+  const [year, month] = gregorianToShamsi(now.getFullYear(), now.getMonth() + 1, now.getDate());
+  return {
+    selectedDate: null,
+    currentYear: year,
+    currentMonth: month,
+  };
+};
 
 export default function PersianDatePicker({
   value = "",
@@ -44,30 +67,12 @@ export default function PersianDatePicker({
   className = "",
   disabled = false,
 }: PersianDatePickerProps) {
+  const initialState = getInitialState(value);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<{ year: number; month: number; day: number } | null>(null);
-  const [currentMonth, setCurrentMonth] = useState<number>(1);
-  const [currentYear, setCurrentYear] = useState<number>(1403);
+  const [selectedDate, setSelectedDate] = useState<DateState | null>(initialState.selectedDate);
+  const [currentMonth, setCurrentMonth] = useState<number>(initialState.currentMonth);
+  const [currentYear, setCurrentYear] = useState<number>(initialState.currentYear);
   const pickerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (value) {
-      const parts = toEnglishDigits(value).split("/");
-      if (parts.length === 3) {
-        const year = parseInt(parts[0]);
-        const month = parseInt(parts[1]);
-        const day = parseInt(parts[2]);
-        setSelectedDate({ year, month, day });
-        setCurrentYear(year);
-        setCurrentMonth(month);
-      }
-    } else {
-      const now = new Date();
-      const [year, month] = gregorianToShamsi(now.getFullYear(), now.getMonth() + 1, now.getDate());
-      setCurrentYear(year);
-      setCurrentMonth(month);
-    }
-  }, [value]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

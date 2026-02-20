@@ -1,17 +1,7 @@
 'use client';
-import { IconUpload, IconInfoCircle } from "@tabler/icons-react";
+import { IconUpload } from "@tabler/icons-react";
 import { useState } from "react";
-import { toPersianDigits } from "@/lib/formatters";
-
-interface Member {
-  id: number;
-  fullName: string;
-  nationalCode: string;
-  fatherName?: string;
-  receivedLoans?: string;
-  phonenumber: string;
-  status: 'active' | 'inactive';
-}
+import type { Member } from "@/types/tables";
 
 interface AddMemberContentProps {
   onClose: () => void;

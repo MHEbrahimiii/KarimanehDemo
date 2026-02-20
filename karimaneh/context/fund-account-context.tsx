@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 export type FundAccount = {
   sheba: string;
@@ -40,11 +40,7 @@ function loadFromStorage(): FundAccount {
 }
 
 export function FundAccountProvider({ children }: { children: React.ReactNode }) {
-  const [fundAccount, setFundAccountState] = useState<FundAccount>(defaultFundAccount);
-
-  useEffect(() => {
-    setFundAccountState(loadFromStorage());
-  }, []);
+  const [fundAccount, setFundAccountState] = useState<FundAccount>(() => loadFromStorage());
 
   const setFundAccount = useCallback(
     (data: Partial<FundAccount> | ((prev: FundAccount) => Partial<FundAccount>)) => {

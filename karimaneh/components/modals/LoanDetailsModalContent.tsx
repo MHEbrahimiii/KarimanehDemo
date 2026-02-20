@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import { Loan, tableData } from '@/mock/tables';
+import { tableData } from '@/mock/tables';
+import type { Loan } from '@/types/tables';
 import { toPersianDigits } from '@/lib/formatters';
 
 interface LoanDetailsModalContentProps {
@@ -16,9 +17,9 @@ const LoanDetailsModalContent: React.FC<LoanDetailsModalContentProps> = ({
   onNext, 
   onReject 
 }) => {
-  if (!data) return null;
-
   const [openPreview, setOpenPreview] = useState<number | null>(null);
+
+  if (!data) return null;
 
   const findGuarantorDetails = (name: string) => {
     const member = tableData.members.find((m) => m.fullName === name);

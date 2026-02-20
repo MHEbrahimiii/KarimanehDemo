@@ -4,18 +4,7 @@ import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { IconChevronDown } from "@tabler/icons-react";
 import { toPersianDigits } from "@/lib/formatters";
-interface LoanStatusData {
-  name: string;
-  value: number;
-  color: string;
-}
-
-const loanStatusData: LoanStatusData[] = [
-  { name: "وام های تایید شده", value: 40, color: "#1E0E62" },
-  { name: "در انتظار بررسی", value: 35, color: "#F4B740" },
-  { name: "رد شده", value: 25, color: "#7B61FF" },
-];
-
+import { loanStatusChartData } from "@/mock/reports";
 export default function LoanStatusChartCard() {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 lg:p-8">
@@ -35,7 +24,7 @@ export default function LoanStatusChartCard() {
       </div>
       <div className="flex items-center justify-center gap-8">
         <div className="flex flex-col gap-3">
-          {loanStatusData.map((item, index) => (
+          {loanStatusChartData.map((item, index) => (
             <div key={index} className="flex items-center gap-3">
               <div
                 className="w-4 h-4 rounded-full flex-shrink-0"
@@ -51,7 +40,7 @@ export default function LoanStatusChartCard() {
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={loanStatusData}
+                data={loanStatusChartData}
                 cx="50%"
                 cy="50%"
                 innerRadius={90}
@@ -60,7 +49,7 @@ export default function LoanStatusChartCard() {
                 cornerRadius={10}
                 dataKey="value"
               >
-                {loanStatusData.map((entry, index) => (
+                {loanStatusChartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
@@ -71,3 +60,4 @@ export default function LoanStatusChartCard() {
     </div>
   );
 }
+

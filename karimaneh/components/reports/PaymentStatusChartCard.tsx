@@ -4,17 +4,7 @@ import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { IconChevronDown } from '@tabler/icons-react';
 import { toPersianDigits } from '@/lib/formatters';
-interface PaymentStatusData {
-    name: string;
-    value: number;
-    color: string;
-}
-
-const paymentStatusData: PaymentStatusData[] = [
-    { name: 'حق اشتراک', value: 40, color: '#F4B740' },
-    { name: 'اقساط', value: 60, color: '#7B61FF' },
-];
-
+import { paymentStatusChartData } from '@/mock/reports';
 const COLORS = ['#F4B740', '#7B61FF'];
 
 export default function PaymentStatusChartCard() {
@@ -36,7 +26,7 @@ export default function PaymentStatusChartCard() {
 
             <div className="flex items-center justify-center gap-8">
                 <div className="flex flex-col gap-3">
-                    {paymentStatusData.map((item, index) => (
+                    {paymentStatusChartData.map((item, index) => (
                         <div key={index} className="flex items-center gap-3">
                             <div
                                 className="w-4 h-4 rounded-full flex-shrink-0"
@@ -53,7 +43,7 @@ export default function PaymentStatusChartCard() {
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
                             <Pie
-                                data={paymentStatusData}
+                                data={paymentStatusChartData}
                                 cx="50%"
                                 cy="50%"
                                 innerRadius={90}
@@ -62,7 +52,7 @@ export default function PaymentStatusChartCard() {
                                 cornerRadius={10}
                                 dataKey="value"
                             >
-                                {paymentStatusData.map((entry, index) => (
+                                {paymentStatusChartData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                 ))}
                             </Pie>
@@ -73,4 +63,5 @@ export default function PaymentStatusChartCard() {
         </div>
     );
 }
+
 

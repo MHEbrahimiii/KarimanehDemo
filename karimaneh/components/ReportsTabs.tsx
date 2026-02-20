@@ -3,7 +3,7 @@
 import { useState } from "react"
 import PerformanceTab from "./PerformanceTab"
 import TransactionsTab from "./TransactionsTab"
-import { MonthlyBalance, LoanStatus, PaymentStatus } from "@/mock/tables"
+import type { MonthlyBalance, LoanStatus, PaymentStatus } from "@/types/tables"
 
 // props for the tabs container
 interface Props {

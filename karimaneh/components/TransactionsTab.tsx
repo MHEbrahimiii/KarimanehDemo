@@ -1,6 +1,6 @@
 "use client";
 
-import { LoanStatus, PaymentStatus } from "@/mock/tables";
+import type { LoanStatus, PaymentStatus } from "@/types/tables";
 import TotalDepositsCard from "@/components/reports/TotalDepositsCard";
 import TotalPaidLoansCard from "@/components/reports/TotalPaidLoansCard";
 import LoanStatusChartCard from "@/components/reports/LoanStatusChartCard";

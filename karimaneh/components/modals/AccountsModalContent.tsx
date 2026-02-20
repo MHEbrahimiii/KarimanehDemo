@@ -4,39 +4,12 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { images } from '@/public/images/images';
 import { toPersianDigits, toEnglishDigits } from '@/lib/formatters';
-
-interface AccountItem {
-  label: string;
-  value: string;
-  type: 'account' | 'card' | 'iban';
-}
+import { defaultAccountData } from '@/mock/accounts';
+import type { AccountItem, AccountsModalData } from '@/types/accounts';
 
 interface AccountsModalContentProps {
-  data?: {
-    accountNumber?: string;
-    cardNumber?: string;
-    iban?: string;
-    bankName?: string;
-  };
+  data?: AccountsModalData;
 }
-
-const defaultAccountData: AccountItem[] = [
-  {
-    label: 'شماره حساب',
-    value: '0302-500302-213-2305',
-    type: 'account',
-  },
-  {
-    label: 'شماره کارت',
-    value: '6219-8619-0456-6769',
-    type: 'card',
-  },
-  {
-    label: 'شماره شبا',
-    value: 'IR2102305000002503021302305',
-    type: 'iban',
-  },
-];
 
 export default function AccountsModalContent({ data }: AccountsModalContentProps = {}) {
   const accountData: AccountItem[] = data ? [
@@ -133,4 +106,5 @@ export default function AccountsModalContent({ data }: AccountsModalContentProps
     </div>
   );
 }
+
 

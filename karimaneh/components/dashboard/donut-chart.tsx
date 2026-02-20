@@ -1,6 +1,11 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-export default function DonutChart({ loansStatus }: any) {
+type LoansStatusData = {
+  labels: string[];
+  data: number[];
+};
+
+export default function DonutChart({ loansStatus }: { loansStatus: LoansStatusData }) {
   const colors = ["var(--primary-70)", "var(--secondary-60)", "var(--gray-60)"];
 
   return (

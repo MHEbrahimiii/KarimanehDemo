@@ -1,7 +1,7 @@
 "use client"
 
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts"
-import { LoanStatus } from "@/mock/tables"
+import type { LoanStatus } from "@/types/tables"
 
 type Props = {
   data: LoanStatus[]

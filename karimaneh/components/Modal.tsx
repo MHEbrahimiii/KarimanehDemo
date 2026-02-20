@@ -10,15 +10,26 @@ import ArreaersModalContent from '@/components/modals/ArreaersModalContent';
 import ArreaersMgModalContent from '@/components/modals/ArreaersMgModalContent';
 import { ComponentType } from 'react';
 
+type ModalPayload = unknown;
+
+type ModalContentProps = {
+  data?: ModalPayload;
+  onClose?: () => void;
+  onConfirm?: () => void;
+  onSubmit?: (data: ModalPayload) => void;
+  onNext?: () => void;
+  onReject?: () => void;
+};
+
 interface ModalProps {
-  onAction?: (data: any) => void;
+  onAction?: (data: ModalPayload) => void;
   isOpen: boolean;
   onClose: () => void;
   modalId: string;
-  data?: any;
+  data?: ModalPayload;
 }
 
-const modalComponents: Record<string, ComponentType<any>> = {
+const modalComponents = {
   viewMember: MemberInfoContent,
   memberForm: AddEditMemberContent,
   deactivate: DeactivateMemberContent,
@@ -28,7 +39,7 @@ const modalComponents: Record<string, ComponentType<any>> = {
   loanDetails: LoanDetailsModalContent,
   arrearsInfo : ArreaersModalContent,
   arrearsMSG: ArreaersMgModalContent,
-};
+} as const;
 
 const STATELESS_MODALS = new Set(['accounts', 'about', 'rules']);
 
@@ -44,7 +55,7 @@ const MODAL_MAX_WIDTH: Record<string, string> = {
 export default function Modal({ isOpen, onClose, modalId, data, onAction }: ModalProps) {
   if (!isOpen) return null;
 
-  const ContentComponent = modalComponents[modalId];
+  const ContentComponent = modalComponents[modalId as keyof typeof modalComponents] as ComponentType<ModalContentProps> | undefined;
   if (!ContentComponent) return null;
   const isStateless = STATELESS_MODALS.has(modalId);
   const isCustomLayout = CUSTOM_LAYOUT_MODALS.has(modalId);

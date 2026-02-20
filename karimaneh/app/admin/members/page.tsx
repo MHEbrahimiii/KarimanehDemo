@@ -6,6 +6,8 @@ import Switcher7 from "@/components/ui/Switcher7";
 import MUIStatusChangeDialog from "@/components/modals/MUIStatusChangeDialog";
 import { toPersianDigits } from "@/lib/formatters";
 import { formatNumber } from "@/lib/formatters";
+import { tableData } from "@/mock/tables";
+import type { Member } from "@/types/tables";
 
 // --- ICONS ---
 const Icons = {
@@ -17,28 +19,8 @@ const Icons = {
   Users: () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /></svg>
 };
 
-interface Member {
-  id: number;
-  fullName: string;
-  nationalCode: string;
-  fatherName?: string;
-  receivedLoans: string;
-  status: 'active' | 'inactive';
-}
-
 export default function MembersPage() {
-  const [members, setMembers] = useState<Member[]>([
-    { id: 1, fullName: "رضا زاهدی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "علی", receivedLoans: "۷,۲۰۰,۰۰۰", status: "active" },
-    { id: 2, fullName: "ایمان عباسی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "رضا", receivedLoans: "۵,۱۰۰,۰۰۰", status: "active" },
-    { id: 3, fullName: "کامران ساده", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "حسن", receivedLoans: "۵,۶۰۰,۰۰۰", status: "inactive" },
-    { id: 4, fullName: "سینا زالی‌پور", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "اسماعیل", receivedLoans: "۷,۹۰۰,۰۰۰", status: "active" },
-    { id: 5, fullName: "علی اکبری", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ایلیا", receivedLoans: "۲,۲۰۰,۰۰۰", status: "active" },
-    { id: 6, fullName: "راشا نامدار", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "یاور", receivedLoans: "۳,۲۰۰,۰۰۰", status: "inactive" },
-    { id: 7, fullName: "محمد نبوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "مرتضی", receivedLoans: "۴,۵۰۰,۰۰۰", status: "active" },
-    { id: 8, fullName: "سعید کریمی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "جواد", receivedLoans: "۶,۱۰۰,۰۰۰", status: "active" },
-    { id: 9, fullName: "حمید علوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "ناصر", receivedLoans: "۹,۰۰۰,۰۰۰", status: "inactive" },
-    { id: 10, fullName: "پویا مهدوی", nationalCode: "۰۰۱۱۹۱۵۷۵۷", fatherName: "قاسم", receivedLoans: "۳,۴۰۰,۰۰۰", status: "active" },
-  ]);
+  const [members, setMembers] = useState<Member[]>(tableData.members);
 
   const [activeModal, setActiveModal] = useState<'viewMember' | 'memberForm' | null>(null);
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
@@ -251,3 +233,5 @@ export default function MembersPage() {
     </div>
   );
 }
+
+

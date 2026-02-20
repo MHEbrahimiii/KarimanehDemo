@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { UserSchema, type User, isAdmin } from "@/lib/schemas";
 
@@ -13,23 +13,24 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 const STORAGE_KEY = "auth";
+const readStoredUser = (): User | null => {
+  if (typeof window === "undefined") return null;
+
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (!stored) return null;
+
+  try {
+    const parsed = JSON.parse(stored);
+    return UserSchema.parse(parsed);
+  } catch {
+    localStorage.removeItem(STORAGE_KEY);
+    return null;
+  }
+};
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => readStoredUser());
   const router = useRouter();
-
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return;
-
-    try {
-      const parsed = JSON.parse(stored);
-      const validated = UserSchema.parse(parsed);
-      setUser(validated);
-    } catch {
-      localStorage.removeItem(STORAGE_KEY);
-    }
-  }, []);
 
   const login = (userData: User) => {
     const validated = UserSchema.parse(userData);

@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts"
 
-import { MonthlyBalance } from "@/mock/tables"
+import type { MonthlyBalance } from "@/types/tables"
 import { formatYAxis } from "@/lib/formatters";
 
 type Props = {

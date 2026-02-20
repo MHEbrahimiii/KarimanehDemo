@@ -4,9 +4,9 @@ import Modal from "@/components/Modal";
 import UserHeader from "@/components/UserHeader";
 import { toPersianDigits } from "@/lib/formatters";
 import { images } from "@/public/images/images";
-import { tableData, Arrear } from "@/mock/tables";
+import { tableData } from "@/mock/tables";
+import type { Arrear } from "@/types/tables";
 import { IconSearch } from "@tabler/icons-react";
-// import tables from "@/mock/tables"
 import { formatNumber } from "@/lib/formatters";
 // Using shared Modal component to render the send-message modal (registered as 'arrearsMSG')
 

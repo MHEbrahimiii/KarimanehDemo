@@ -11,6 +11,7 @@ interface InfoModalContentProps {
     fullName: string;
     nationalCode: string;
     fatherName?: string;
+    mobile?: string;
     receivedLoans: string;
     status: 'active' | 'inactive';
   } | null;
@@ -29,7 +30,7 @@ export default function ArreaersModalContent({ data, onClose }: InfoModalContent
       <div className="relative bg-linear-to-r from-blue-50 to-blue-100 p-6 rounded-t-2xl">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
-            <span className="text-gray-700 font-mono">{toPersianDigits(((member as any).mobile ?? '09123456789'))}</span>
+            <span className="text-gray-700 font-mono">{toPersianDigits((member.mobile ?? '09123456789'))}</span>
             <div className="w-px h-6 bg-gray-200" />
             <div>
               <h3 className="text-2xl font-bold text-gray-800 mb-1">{member.fullName}</h3>
@@ -75,7 +76,7 @@ export default function ArreaersModalContent({ data, onClose }: InfoModalContent
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600 text-sm">شماره موبایل:</span>
-            <span className="font-semibold text-gray-800 font-mono">{toPersianDigits(((member as any).mobile ?? '09123456789'))}</span>
+            <span className="font-semibold text-gray-800 font-mono">{toPersianDigits((member.mobile ?? '09123456789'))}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600 text-sm">شماره حساب:</span>
@@ -105,3 +106,5 @@ export default function ArreaersModalContent({ data, onClose }: InfoModalContent
     </div>
   );
 }
+
+

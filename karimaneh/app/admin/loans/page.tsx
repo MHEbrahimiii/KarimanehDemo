@@ -3,7 +3,8 @@ import { toPersianDigits } from "@/lib/formatters";
 import UserHeader from "@/components/UserHeader";
 import { IconChevronRight, IconChevronLeft, IconSearch, IconArrowsSort, IconEye } from "@tabler/icons-react";
 import { useState } from "react";
-import { tableData, Loan } from "@/mock/tables";
+import { tableData } from "@/mock/tables";
+import type { Loan } from "@/types/tables";
 import Modal from "@/components/Modal";
 
 const LOAN_COLUMNS = [
@@ -211,14 +212,16 @@ export default function LoansPage() {
         }}
         modalId="loanDetails"
         data={selectedLoan}
-        onAction={(actionData: any) => {
-          if (actionData?.type === 'next') {
-            console.log('Next step for loan:', actionData.data);
-          } else if (actionData?.type === 'reject') {
-            console.log('Reject loan:', actionData.data);
+        onAction={(actionData) => {
+          const action = actionData as { type?: "next" | "reject"; data?: Loan };
+          if (action.type === 'next') {
+            console.log('Next step for loan:', action.data);
+          } else if (action.type === 'reject') {
+            console.log('Reject loan:', action.data);
           }
         }}
       />
     </div>
   );
 }
+

@@ -11,7 +11,7 @@ import {
 
 export default function ReportsPage() {
   return (
-    <div className="p-6 min-h-screen text-right font-[vazir]" dir="rtl">
+    <div className="p-6 min-h-screen text-right" dir="rtl">
       <UserHeader />
       <h1 className="text-2xl font-bold text-gray-900 mb-6">تراکنشات</h1>
       <ReportsTabs

@@ -8,21 +8,19 @@ import {
   IconClock,
   IconArrowsExchange,
   IconHistory,
-  IconMessageCircle,
   IconSettings,
 } from "@tabler/icons-react";
 
 const links = [
   { label: "پیشخوان", href: "/dashboard", icon: <IconHome className="text-white h-5 w-5" /> },
-  { label: "وام", href: "/dashboard/loans ", icon: <IconCreditCard className="text-white h-5 w-5" /> },
+  { label: "وام", href: "/dashboard/loans", icon: <IconCreditCard className="text-white h-5 w-5" /> },
   { label: "معوقات", href: "/dashboard/arrears", icon: <IconClock className="text-white h-5 w-5" /> },
   { label: "تراکنش", href: "/dashboard/transactions", icon: <IconArrowsExchange className="text-white h-5 w-5" /> },
   { label: "گزارش ها", href: "/dashboard/reports", icon: <IconHistory className="text-white h-5 w-5" /> },
-  { label: "پشتیبانی اعضا", href: "/dashboard/support", icon: <IconMessageCircle className="text-white h-5 w-5" /> },
   { label: "تنظیمات", href: "/dashboard/settings", icon: <IconSettings className="text-white h-5 w-5" /> },
 ] as const;
 
-export default function DashboardLayout({ children }: any) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full bg-[#F9F8F4]">
@@ -61,4 +59,6 @@ export default function DashboardLayout({ children }: any) {
     </SidebarProvider>
   );
 }
+
+
 

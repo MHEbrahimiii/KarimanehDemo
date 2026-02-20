@@ -3,7 +3,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { mockLogin } from "@/services/api";
@@ -52,7 +52,7 @@ export default function LoginPage() {
                 }
               }}
             >
-              {({ errors, touched }: { errors: any; touched: any }) => (
+              {({ errors, touched }) => (
                 <Form className="space-y-6">
                   <div>
                     <Field
@@ -60,11 +60,11 @@ export default function LoginPage() {
                       type="text"
                       placeholder="نام کاربری (فقط انگلیسی)"
                       autoComplete="username"
-                      onInput={(e: any) => {
-                        const value = e.target.value;
+                      onInput={(e: FormEvent<HTMLInputElement>) => {
+                        const value = e.currentTarget.value;
                         const englishOnly = removePersianChars(value);
                         if (value !== englishOnly) {
-                          e.target.value = englishOnly;
+                          e.currentTarget.value = englishOnly;
                         }
                       }}
                       className={`w-full px-4 py-3 border rounded-lg bg-neutral-white placeholder-gray-70 focus:outline-none transition ${
@@ -85,11 +85,11 @@ export default function LoginPage() {
                       type={showPassword ? "text" : "password"}
                       placeholder="رمز عبور (حداقل 7 کاراکتر - فقط انگلیسی)"
                       autoComplete="current-password"
-                      onInput={(e: any) => {
-                        const value = e.target.value;
+                      onInput={(e: FormEvent<HTMLInputElement>) => {
+                        const value = e.currentTarget.value;
                         const englishOnly = removePersianChars(value);
                         if (value !== englishOnly) {
-                          e.target.value = englishOnly;
+                          e.currentTarget.value = englishOnly;
                         }
                       }}
                       className={`w-full px-4 py-3 pr-12 border rounded-lg bg-neutral-white placeholder-gray-70 focus:outline-none transition ${
@@ -185,4 +185,6 @@ export default function LoginPage() {
     </div>
   );
 }
+
+
 

@@ -10,14 +10,12 @@ import {
   IconHome,
   IconCreditCard,
   IconArrowsExchange,
-  IconMessageCircle,
 } from "@tabler/icons-react";
 
 const userLinks = [
   { label: "پیشخوان", href: "/user", icon: <IconHome className="text-white h-5 w-5" /> },
   { label: "وام‌های من", href: "/user/loans", icon: <IconCreditCard className="text-white h-5 w-5" /> },
   { label: "تراکنش‌های من", href: "/user/transactions", icon: <IconArrowsExchange className="text-white h-5 w-5" /> },
-  { label: "پشتیبانی", href: "/user/support", icon: <IconMessageCircle className="text-white h-5 w-5" /> },
 ] as const;
 
 export default function UserLayout({ children }: { children: React.ReactNode }) {
@@ -77,4 +75,5 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
     </SidebarProvider>
   );
 }
+
 

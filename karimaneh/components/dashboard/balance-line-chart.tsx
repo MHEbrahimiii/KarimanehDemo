@@ -9,13 +9,18 @@
 } from "recharts";
 import { toPersianDigits } from "@/lib/formatters";
 
-export default function BalanceLineChart({ balances }: any) {
+type BalanceSeries = {
+  labels: string[];
+  data: number[];
+};
+
+export default function BalanceLineChart({ balances }: { balances: BalanceSeries }) {
   const data = balances.labels.map((l: string, i: number) => ({
     name: l,
     value: balances.data[i],
   }));
 
-  const maxValue = Math.max(...data.map((d: any) => d.value));
+  const maxValue = Math.max(...data.map((d) => d.value));
   const yAxisMax = Math.max(40, Math.ceil(maxValue / 10) * 10);
 
   return (

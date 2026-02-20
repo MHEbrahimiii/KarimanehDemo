@@ -1,7 +1,7 @@
 "use client";
 import { IconAlertTriangle } from "@tabler/icons-react";
 interface Props {
-  data: any;
+  data?: { fullName?: string };
   onConfirm: () => void;
   onClose: () => void;
 }
@@ -19,7 +19,7 @@ export default function DeactivateMemberContent({ data, onConfirm, onClose }: Pr
       </h3>
       
       <p className="text-muted-foreground text-[14px] leading-7 mb-8">
-        آیا از غیرفعال‌سازی <span className="text-foreground font-bold italic">"{data?.fullName}"</span> اطمینان دارید؟
+        آیا از غیرفعال‌سازی <span className="text-foreground font-bold italic">&quot;{data?.fullName}&quot;</span> اطمینان دارید؟
       </p>
       <div className="flex gap-3 w-full">
         <button

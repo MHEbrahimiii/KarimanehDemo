@@ -1,5 +1,5 @@
 import FundBalanceChart from "./charts/FundBalanceChart"
-import { MonthlyBalance } from "@/mock/tables"
+import type { MonthlyBalance } from "@/types/tables"
 
 type Props = {
   data: MonthlyBalance[]

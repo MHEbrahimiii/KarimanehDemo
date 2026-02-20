@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { getDashboardMock } from "@/services/dashboard";
@@ -100,6 +100,7 @@ export default function DashboardPage() {
                     <IconWallet className="w-4 h-4 text-[#846DD8]" />
                   </div>
                 </div>
+
                 <p className="text-[10px] text-gray-500 leading-tight">آخرین واریزی</p>
                 <p className="text-lg font-bold text-[#A07800] leading-tight">
                   {data?.heroStats?.[3]?.value || "ریال ۰"}
@@ -181,7 +182,9 @@ export default function DashboardPage() {
                 <button className="px-2 py-1 text-[10px] rounded-md text-gray-600 hover:bg-gray-100 transition">
                   ۷ روز
                 </button>
-                <button className="px-2 py-1 text-[10px] rounded-md text-gray-600 hover:bg-gray-100 transition">
+                <button className="px-2 py-1 text-[10px] r
+
+ounded-md text-gray-600 hover:bg-gray-100 transition">
                   ۳۰ روز
                 </button>
                 <button className="px-2 py-1 text-[10px] rounded-md bg-gray-200 text-gray-700 font-medium border border-gray-300 shadow-sm">

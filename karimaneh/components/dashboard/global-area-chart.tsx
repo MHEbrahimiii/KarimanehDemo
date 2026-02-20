@@ -7,7 +7,12 @@ import {
 } from "recharts";
 import { toPersianDigits } from "@/lib/formatters";
 
-export default function GlobalAreaChart({ paidLoans }: any) {
+type PaidLoansSeries = {
+  months: string[];
+  data: number[];
+};
+
+export default function GlobalAreaChart({ paidLoans }: { paidLoans: PaidLoansSeries }) {
   const data = paidLoans.months.map((m: string, i: number) => ({
     name: m,
     value: paidLoans.data[i],
@@ -23,7 +28,7 @@ export default function GlobalAreaChart({ paidLoans }: any) {
   const gradientId = "paidLoansGradient";
   const numSegments = data.length;
 
-  const gradientStops = data.flatMap((_: any, i: number) => {
+  const gradientStops = data.flatMap((_, i: number) => {
     const startOffset = (i / numSegments) * 100;
     const endOffset = ((i + 1) / numSegments) * 100;
     

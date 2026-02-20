@@ -13,7 +13,6 @@ import {
   IconClock,
   IconArrowsExchange,
   IconHistory,
-  IconMessageCircle,
   IconSettings,
 } from "@tabler/icons-react";
 
@@ -24,7 +23,6 @@ const adminLinks = [
   { label: "معوقات", href: "/admin/arrears", icon: <IconClock className="text-white h-5 w-5" /> },
   { label: "تراکنش", href: "/admin/transactions", icon: <IconArrowsExchange className="text-white h-5 w-5" /> },
   { label: "گزارش ها", href: "/admin/reports", icon: <IconHistory className="text-white h-5 w-5" /> },
-  { label: "پشتیبانی اعضا", href: "/admin/support", icon: <IconMessageCircle className="text-white h-5 w-5" /> },
   { label: "تنظیمات", href: "/admin/settings", icon: <IconSettings className="text-white h-5 w-5" /> },
 ] as const;
 
@@ -85,4 +83,5 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </SidebarProvider>
   );
 }
+
 
